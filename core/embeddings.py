@@ -6,7 +6,7 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 import chromadb
 
 
-CHROMA_PERSIST_DIR = "./chroma_db"
+CHROMA_PERSIST_DIR = None
 COLLECTION_NAME = "docmind_collection"
 
 
