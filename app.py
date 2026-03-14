@@ -21,9 +21,9 @@ st.markdown("""
     --border:  #1E3A6E;  /* حدود كحلي */
 --muted:   #1E3A6E;  /* نص ثانوي كحلي */
     --teal:    #4f6274  ;  /* أزرار كحلي */
-    --teal2:   #2A4F96;  /* hover أفتح */
---user-bg: #F0F4FF;  /* نفس اللون */
-    --ai-bg:   #FAF7F2;  /* فقاعة الـ AI */
+    --teal2:   #4f6274 ;  /* hover أفتح */
+--user-bg: #4f6274 ;  /* نفس اللون */
+    --ai-bg:   #4f6274 ;  /* فقاعة الـ AI */
    
 }
 *, *::before, *::after { box-sizing: border-box; }
