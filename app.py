@@ -197,10 +197,13 @@ section.main {
     color: #8B2019;
     margin: 0.5rem 0;
 }
-/* خلفية منطقة الـ chat input */
-[data-testid="stBottom"] {
+/* منطقة الـ chat input السفلية */
+[data-testid="stBottom"] > div {
     background: #0A0E1A !important;
-    border-top: 1px solid #1E2A45 !important;
+}
+
+.stChatFloatingInputContainer {
+    background: #0A0E1A !important;
 }
 </style>
 """, unsafe_allow_html=True)
