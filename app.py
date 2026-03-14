@@ -15,15 +15,15 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 :root {
-    --bg:      #0D1117;  /* خلفية داكنة */
-    --navy:    #E6EDF3;  /* نص فاتح */
-    --panel:   #161B22;  /* خلفية البانلات */
-    --border:  #30363D;  /* حدود */
-    --muted:   #8B949E;  /* نص ثانوي */
-    --teal:    #1F6FEB;  /* أزرق للأزرار */
-    --teal2:   #388BFD;  /* أزرق فاتح عند الـ hover */
-    --user-bg: #1C2A3E;  /* فقاعة المستخدم */
-    --ai-bg:   #161B22;  /* فقاعة الـ AI */
+    --bg:      #F5F0E8;  /* خلفية بيج فاتح */
+    --navy:    #2C2416;  /* نص بني داكن */
+    --panel:   #EDE5D4;  /* خلفية البانلات */
+    --border:  #D4C4A8;  /* حدود بيج داكن */
+    --muted:   #8B7355;  /* نص ثانوي بني */
+    --teal:    #A0845C;  /* أزرار بني ذهبي */
+    --teal2:   #B8976A;  /* hover أفتح */
+    --user-bg: #E8D9C0;  /* فقاعة المستخدم */
+    --ai-bg:   #FAF7F2;  /* فقاعة الـ AI */
 }
 
 *, *::before, *::after { box-sizing: border-box; }
