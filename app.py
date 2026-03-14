@@ -301,14 +301,14 @@ with st.expander("Advanced Settings"):
 
 st.markdown("<hr style='border:none;border-top:1px solid #C8D0E8;margin:0.5rem 0 1rem'>", unsafe_allow_html=True)
 # ── Upload ────────────────────────────────────────────────────────────────
+st.markdown("<hr style='border:none;border-top:1px solid #C8D0E8;margin:0.5rem 0 1rem'>", unsafe_allow_html=True)
+# ── Upload ────────────────────────────────────────────────────────────────
 if not st.session_state.documents_loaded:
-  
-if not st.session_state.documents_loaded:
-   uploaded_files = st.file_uploader(
-    "Upload your files",
-    type=["pdf", "txt", "docx", "md"],
-    accept_multiple_files=True,
-)
+    uploaded_files = st.file_uploader(
+        "Upload your files",
+        type=["pdf", "txt", "docx", "md"],
+        accept_multiple_files=True,
+    )
     if uploaded_files:
         if st.button("Process Documents"):
             with st.spinner("Processing..."):
