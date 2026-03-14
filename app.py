@@ -226,7 +226,7 @@ hr {
 }
 .doc-header p {
     font-size: 1.2rem !important;
-    font-weight: 400 !important;
+    font-weight: 300 !important;
     letter-spacing: 0.01em !important;
 }
 </style>
