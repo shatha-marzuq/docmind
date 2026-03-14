@@ -237,21 +237,22 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ── Top controls ──────────────────────────────────────────────────────────
-col1, col2, col3, col4 = st.columns([2, 1, 1, 1])
+col1, col2, col3 = st.columns([2, 1, 1])
 with col1:
     search_mode = st.selectbox("", ["Hybrid", "Semantic", "Keyword"], label_visibility="collapsed")
 with col2:
-    top_k = st.slider("", 2, 10, 5, label_visibility="collapsed")
-with col3:
     if st.button("Clear Chat", use_container_width=True):
         st.session_state.chat_history = []
         st.rerun()
-with col4:
+with col3:
     if st.button("Reset All", use_container_width=True):
         for k, v in defaults.items():
             st.session_state[k] = v
         clear_vector_store()
         st.rerun()
+
+with st.expander("⚙️ إعدادات متقدمة"):
+    top_k = st.slider("عدد النتائج", 2, 10, 5)
 
 st.markdown("<hr style='border:none;border-top:1px solid #C8D0E8;margin:0.5rem 0 1rem'>", unsafe_allow_html=True)
 
