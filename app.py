@@ -15,7 +15,7 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 :root {
-    --bg:     #FDFBF7;  /* خلفية بيج */
+    --bg:     ##FFFFFF;  /* خلفية بيج */
     --navy:    #0A0E1A;  /* نص كحلي داكن */
     --panel:   #EEE7D8;  /* بانلات بيج داكن */
     --border:  #D4C4A8;  /* حدود بيج */
@@ -200,7 +200,7 @@ section.main {
 
 [data-testid="stBottom"] > div,
 .stChatFloatingInputContainer {
-    background: #FDFBF7; !important;
+    background: #FFFFFF; !important;
 }
 
 /* مستطيل الشات */
