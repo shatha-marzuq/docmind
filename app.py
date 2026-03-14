@@ -311,6 +311,8 @@ if not st.session_state.documents_loaded:
                     if st.session_state.embeddings is None:
                         st.session_state.embeddings = get_embeddings()
                     clear_vector_store()
+ st.session_state.embeddings = get_embeddings()
+                    clear_vector_store()
                     st.session_state.vector_store = add_documents_to_store(all_chunks, st.session_state.embeddings)
                     st.session_state.hybrid_retriever = HybridRetriever(st.session_state.vector_store, all_chunks)
                     st.session_state.all_chunks = all_chunks
@@ -318,12 +320,11 @@ if not st.session_state.documents_loaded:
                     st.session_state.uploaded_files_names = [f.name for f in uploaded_files]
                     st.session_state.chat_history = []
                     st.rerun()
-  except Exception as e:
+                except Exception as e:
                     st.markdown(f'<div class="err-box">{e}</div>', unsafe_allow_html=True)
 else:
     pills = "".join([f'<span style="background:#E5E7EB;border-radius:6px;padding:2px 8px;font-size:0.73rem;margin:2px;">{n}</span>' for n in st.session_state.uploaded_files_names])
-    st.markdown(f'<div class="upload-strip"><span class="ready-dot"></span>&nbsp;Ready &nbsp;{pills}</div>', unsafe_allow_html=True)
-# ── Chat ──────────────────────────────────────────────────────────────────
+    st.markdown(f'<div class="upload-strip"><span class="ready-dot"></span>&nbsp;Ready &nbsp;{pills}</div>', unsafe_allow_html=True)# ── Chat ──────────────────────────────────────────────────────────────────
 for msg in st.session_state.chat_history:
     if msg["role"] == "user":
         st.markdown(f'<div class="bubble-user">{msg["content"]}</div>', unsafe_allow_html=True)
