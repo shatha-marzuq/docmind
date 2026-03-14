@@ -224,6 +224,11 @@ hr {
 [data-testid="stFileUploaderDropzone"] small {
     color: #6B7280  !important;
 }
+.doc-header p {
+    font-size: 1.2rem !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.01em !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
