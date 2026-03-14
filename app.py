@@ -64,7 +64,7 @@ section.main {
     margin: 0;
 }
 .doc-header p {
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: var(--muted);
     font-weight: 300;
     margin: 3px 0 0;
