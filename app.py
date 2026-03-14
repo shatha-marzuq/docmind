@@ -202,6 +202,20 @@ section.main {
 .stChatFloatingInputContainer {
     background: #F5F0E8 !important;
 }
+
+[data-testid="stChatInput"] textarea {
+    background: #FFFFFF !important;
+    border: 1.5px solid #1E3A6E !important;
+    border-radius: 10px !important;
+    color: #0A0E1A !important;
+}
+
+[data-testid="stChatInput"] {
+    background: #FFFFFF !important;
+    border: 1.5px solid #1E3A6E !important;
+    border-radius: 10px !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
