@@ -197,6 +197,26 @@ section.main {
     color: #8B2019;
     margin: 0.5rem 0;
 }
+/* Chat input */
+[data-testid="stChatInput"] {
+    background: #0A0E1A !important;
+}
+
+[data-testid="stChatInput"] textarea {
+    background: #111827 !important;
+    border: 1.5px solid #1E2A45 !important;
+    color: #E8EAF0 !important;
+}
+
+/* الجزء الأبيض تحت الصفحة */
+[data-testid="stBottom"] {
+    background: #0A0E1A !important;
+}
+
+/* كل الصفحة */
+[data-testid="stAppViewContainer"] {
+    background: #0A0E1A !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
