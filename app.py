@@ -14,17 +14,16 @@ st.set_page_config(page_title="DocMind", layout="centered", initial_sidebar_stat
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-
 :root {
-    --bg:      #F4F6FB;
-    --navy:    #111D45;
-    --panel:   #EEF1FB;
-    --border:  #C8D0E8;
-    --muted:   #5A6A9A;
-    --teal:    #2A9D8F;
-    --teal2:   #3DBFB0;
-    --user-bg: #D6DCF5;
-    --ai-bg:   #FFFFFF;
+    --bg:      #0D1117;  /* خلفية داكنة */
+    --navy:    #E6EDF3;  /* نص فاتح */
+    --panel:   #161B22;  /* خلفية البانلات */
+    --border:  #30363D;  /* حدود */
+    --muted:   #8B949E;  /* نص ثانوي */
+    --teal:    #1F6FEB;  /* أزرق للأزرار */
+    --teal2:   #388BFD;  /* أزرق فاتح عند الـ hover */
+    --user-bg: #1C2A3E;  /* فقاعة المستخدم */
+    --ai-bg:   #161B22;  /* فقاعة الـ AI */
 }
 
 *, *::before, *::after { box-sizing: border-box; }
