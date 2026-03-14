@@ -15,7 +15,7 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 :root {
-    --bg:     ##FFFFFF;  /* خلفية بيج */
+    --bg:     #F8F9FC;  /* خلفية بيج */
     --navy:    #0A0E1A;  /* نص كحلي داكن */
     --panel:   #F0F4FF;  /* أبيض مزرق فاتح */
     --border:  #1E3A6E;  /* حدود كحلي */
