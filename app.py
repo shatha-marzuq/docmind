@@ -18,12 +18,13 @@ st.markdown("""
     --bg:     ##FFFFFF;  /* خلفية بيج */
     --navy:    #0A0E1A;  /* نص كحلي داكن */
     --panel:   #EEE7D8;  /* بانلات بيج داكن */
-    --border:  #D4C4A8;  /* حدود بيج */
-    --muted:   #1E2A45;  /* نص ثانوي كحلي */
+    --border:  #1E3A6E;  /* حدود كحلي */
+--muted:   #1E3A6E;  /* نص ثانوي كحلي */
     --teal:    #1E3A6E;  /* أزرار كحلي */
     --teal2:   #2A4F96;  /* hover أفتح */
-    --user-bg: #E8D9C0;  /* فقاعة المستخدم */
+--user-bg: #EEF1FB;  /* فقاعة المستخدم */
     --ai-bg:   #FAF7F2;  /* فقاعة الـ AI */
+   
 }
 *, *::before, *::after { box-sizing: border-box; }
 
