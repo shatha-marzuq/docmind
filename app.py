@@ -200,7 +200,7 @@ section.main {
 
 [data-testid="stBottom"] > div,
 .stChatFloatingInputContainer {
-    background: #F7F8FC !important;
+    background: #F9FAFB !important;
 }
 
 /* مستطيل الشات */
