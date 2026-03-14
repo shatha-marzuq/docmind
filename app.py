@@ -251,7 +251,7 @@ with col3:
         clear_vector_store()
         st.rerun()
 
-with st.expander("⚙️ Advanced Settings"):
+with st.expander("Advanced Settings"):
     depth = st.selectbox(
         "Search Depth",
         [
