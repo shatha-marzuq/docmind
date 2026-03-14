@@ -300,9 +300,8 @@ with st.expander("Advanced Settings"):
         top_k = 10
 
 st.markdown("<hr style='border:none;border-top:1px solid #C8D0E8;margin:0.5rem 0 1rem'>", unsafe_allow_html=True)
-
 # ── Upload ────────────────────────────────────────────────────────────────
-   if not st.session_state.documents_loaded:
+if not st.session_state.documents_loaded:
     st.markdown("""
     <div style="text-align:center; padding: 3rem 1rem 2rem;">
         <div style="font-size:3rem;">🧠</div>
@@ -314,13 +313,11 @@ st.markdown("<hr style='border:none;border-top:1px solid #C8D0E8;margin:0.5rem 0
         </p>
     </div>
     """, unsafe_allow_html=True)
-
     uploaded_files = st.file_uploader(
         "Upload your files",
         type=["pdf", "txt", "docx", "md"],
         accept_multiple_files=True,
     )
-       
     if uploaded_files:
         if st.button("Process Documents"):
             with st.spinner("Processing..."):
@@ -344,41 +341,4 @@ st.markdown("<hr style='border:none;border-top:1px solid #C8D0E8;margin:0.5rem 0
                     st.markdown(f'<div class="err-box">{e}</div>', unsafe_allow_html=True)
 else:
     pills = "".join([f'<span style="background:#E5E7EB;border-radius:6px;padding:2px 8px;font-size:0.73rem;margin:2px;">{n}</span>' for n in st.session_state.uploaded_files_names])
-    st.markdown(f'<div class="upload-strip"><span class="ready-dot"></span>&nbsp;Ready &nbsp;{pills}</div>', unsafe_allow_html=True)# ── Chat ──────────────────────────────────────────────────────────────────
-for msg in st.session_state.chat_history:
-    if msg["role"] == "user":
-        st.markdown(f'<div class="bubble-user">{msg["content"]}</div>', unsafe_allow_html=True)
-    else:
-        cit_html = ""
-        if msg.get("citations"):
-            items = ""
-            for cit in msg["citations"]:
-                page_info = f" · p.{cit['page']}" if cit.get("page") else ""
-                hl = highlight_keywords(cit["content"], msg.get("query", ""))
-                items += f'<div class="cit-item"><div class="cit-src">{cit["source"]}{page_info}</div>{hl}</div>'
-            cit_html = f'<div class="cit-wrap">{items}</div>'
-        st.markdown(f'<div class="bubble-ai">{msg["content"]}{cit_html}</div>', unsafe_allow_html=True)
-
-placeholder = "Ask anything about your documents..." if st.session_state.documents_loaded else "Upload a document to start..."
-if question := st.chat_input(placeholder, disabled=not st.session_state.documents_loaded):
-    st.session_state.chat_history.append({"role": "user", "content": question})
-    with st.spinner("Searching..."):
-        try:
-            if search_mode == "Hybrid":
-                docs_with_scores = st.session_state.hybrid_retriever.retrieve(question, top_k)
-            elif search_mode == "Semantic":
-                docs_with_scores = st.session_state.vector_store.similarity_search_with_score(question, k=top_k)
-            else:
-                from core.hybrid_search import BM25Retriever
-                bm25 = BM25Retriever(st.session_state.all_chunks)
-                docs_with_scores = bm25.search(question, k=top_k)
-            result = answer_question(question, docs_with_scores)
-            st.session_state.chat_history.append({
-                "role": "assistant",
-                "content": result["answer"],
-                "citations": result["citations"],
-                "query": question,
-            })
-            st.rerun()
-        except Exception as e:
-            st.markdown(f'<div class="err-box">{e}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="upload-strip"><span class="ready-dot"></span>&nbsp;Ready &nbsp;{pills}</div>', unsafe_allow_html=True)
