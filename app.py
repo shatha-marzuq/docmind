@@ -266,7 +266,7 @@ with st.expander("⚙️ Advanced Settings"):
     elif depth.startswith("Balanced"):
         top_k = 5
     else:
-        top_k = 10)
+        top_k = 10
 
 st.markdown("<hr style='border:none;border-top:1px solid #C8D0E8;margin:0.5rem 0 1rem'>", unsafe_allow_html=True)
 
