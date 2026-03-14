@@ -21,7 +21,7 @@ st.markdown("""
     --border:  #E5E7EB;  /* حدود رمادي ناعم */
     --muted:   #6B7280;  /* نص ثانوي */
     --teal:    #5b5b5b ;  /* أزرار أزرق كحلي */
-    --teal2:   #2563EB;  /* hover أفتح */
+    --teal2:   #7b7b7b ;  /* hover أفتح */
     --user-bg: #DBEAFE;  /* فقاعة المستخدم أزرق فاتح */
     --ai-bg:   #FFFFFF;  /* فقاعة الـ AI أبيض */
 }
