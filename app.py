@@ -222,7 +222,7 @@ hr {
 [data-testid="stFileUploaderDropzone"] p,
 [data-testid="stFileUploaderDropzone"] span,
 [data-testid="stFileUploaderDropzone"] small {
-    color: #111827 !important;
+    color: #6B7280  !important;
 }
 </style>
 """, unsafe_allow_html=True)
