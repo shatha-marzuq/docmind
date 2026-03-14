@@ -302,22 +302,13 @@ with st.expander("Advanced Settings"):
 st.markdown("<hr style='border:none;border-top:1px solid #C8D0E8;margin:0.5rem 0 1rem'>", unsafe_allow_html=True)
 # ── Upload ────────────────────────────────────────────────────────────────
 if not st.session_state.documents_loaded:
-    st.markdown("""
-    <div style="text-align:center; padding: 3rem 1rem 2rem;">
-        <div style="font-size:3rem;">🧠</div>
-        <h2 style="font-size:1.3rem; font-weight:600; color:#111827; margin:0.8rem 0 0.4rem;">
-            Welcome to DocMind
-        </h2>
-        <p style="color:#6B7280; font-size:0.95rem; max-width:400px; margin:0 auto 2rem;">
-            Upload a document and start asking questions instantly
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-    uploaded_files = st.file_uploader(
-        "Upload your files",
-        type=["pdf", "txt", "docx", "md"],
-        accept_multiple_files=True,
-    )
+  
+if not st.session_state.documents_loaded:
+   uploaded_files = st.file_uploader(
+    "Upload your files",
+    type=["pdf", "txt", "docx", "md"],
+    accept_multiple_files=True,
+)
     if uploaded_files:
         if st.button("Process Documents"):
             with st.spinner("Processing..."):
