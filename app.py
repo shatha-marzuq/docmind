@@ -250,14 +250,23 @@ with col3:
             st.session_state[k] = v
         clear_vector_store()
         st.rerun()
+
 with st.expander("⚙️ Advanced Settings"):
     depth = st.selectbox(
         "Search Depth",
-        ["Fast — quick specific questions",
-         "Balanced — most questions",
-         "Deep — summaries & analysis"],
-        index=1
+        [
+            "Fast — quick specific questions",
+            "Balanced — most questions",
+            "Deep — summaries & analysis",
+        ],
+        index=1,
     )
+    if depth.startswith("Fast"):
+        top_k = 3
+    elif depth.startswith("Balanced"):
+        top_k = 5
+    else:
+        top_k = 10)
 
 st.markdown("<hr style='border:none;border-top:1px solid #C8D0E8;margin:0.5rem 0 1rem'>", unsafe_allow_html=True)
 
