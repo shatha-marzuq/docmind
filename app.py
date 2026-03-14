@@ -311,8 +311,6 @@ if not st.session_state.documents_loaded:
                     if st.session_state.embeddings is None:
                         st.session_state.embeddings = get_embeddings()
                     clear_vector_store()
- st.session_state.embeddings = get_embeddings()
-                    clear_vector_store()
                     st.session_state.vector_store = add_documents_to_store(all_chunks, st.session_state.embeddings)
                     st.session_state.hybrid_retriever = HybridRetriever(st.session_state.vector_store, all_chunks)
                     st.session_state.all_chunks = all_chunks
