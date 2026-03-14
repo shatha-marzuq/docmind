@@ -250,9 +250,14 @@ with col3:
             st.session_state[k] = v
         clear_vector_store()
         st.rerun()
-
-with st.expander("⚙️ إعدادات متقدمة"):
-    top_k = st.slider("عدد النتائج", 2, 10, 5)
+with st.expander("⚙️ Advanced Settings"):
+    depth = st.selectbox(
+        "Search Depth",
+        ["Fast — quick specific questions",
+         "Balanced — most questions",
+         "Deep — summaries & analysis"],
+        index=1
+    )
 
 st.markdown("<hr style='border:none;border-top:1px solid #C8D0E8;margin:0.5rem 0 1rem'>", unsafe_allow_html=True)
 
