@@ -216,6 +216,9 @@ section.main {
     border: none !important;
     border-radius: 10px !important;
 }
+hr {
+    border-color: #1E3A6E !important;
+}
 
 </style>
 """, unsafe_allow_html=True)
