@@ -203,16 +203,17 @@ section.main {
     background: #F5F0E8 !important;
 }
 
+/* مستطيل الشات */
 [data-testid="stChatInput"] textarea {
     background: #FFFFFF !important;
-    border: 1.5px solid #1E3A6E !important;
+    border: none !important;
     border-radius: 10px !important;
     color: #0A0E1A !important;
 }
 
 [data-testid="stChatInput"] {
     background: #FFFFFF !important;
-    border: 1.5px solid #1E3A6E !important;
+    border: none !important;
     border-radius: 10px !important;
 }
 
