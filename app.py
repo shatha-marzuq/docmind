@@ -219,19 +219,11 @@ section.main {
 hr {
     border-color: #1E3A6E !important;
 }
-
-[data-testid="stFileUploaderDropzone"] {
-    background: var(--panel) !important;
-    border: 1.5px dashed var(--border) !important;
-    border-radius: 10px !important;
+[data-testid="stFileUploaderDropzone"] p,
+[data-testid="stFileUploaderDropzone"] span,
+[data-testid="stFileUploaderDropzone"] small {
     color: #111827 !important;
 }
-
-[data-testid="stFileUploaderDropzone"] * {
-    color: #111827 !important;
-    fill: #111827 !important;
-}
-
 </style>
 """, unsafe_allow_html=True)
 
