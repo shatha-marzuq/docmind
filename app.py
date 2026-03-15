@@ -10,21 +10,22 @@ from core.hybrid_search import HybridRetriever
 load_dotenv()
 
 st.set_page_config(page_title="DocMind", layout="centered", initial_sidebar_state="collapsed")
-
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
 :root {
-    --bg:      #F9FAFB;  /* خلفية رمادي فاتح جداً */
-    --navy:    #111827;  /* نص أسود ناعم */
-    --panel:   #F3F4F6;  /* بانلات رمادي خفيف */
-    --border:  #E5E7EB;  /* حدود رمادي ناعم */
-    --muted:   #6B7280;  /* نص ثانوي */
-    --teal:    #5b5b5b ;  /* أزرار أزرق كحلي */
-    --teal2:   #7b7b7b ;  /* hover أفتح */
-    --user-bg: #E5E7EB;  /* فقاعة المستخدم أزرق فاتح */
-    --ai-bg:   #FFFFFF;  /* فقاعة الـ AI أبيض */
+    --bg:      #FFFFFF;
+    --navy:    #1A1A1A;
+    --panel:   #F7F7F5;
+    --border:  #E8E8E4;
+    --muted:   #8E8E8A;
+    --teal:    #D97706;
+    --teal2:   #F59E0B;
+    --user-bg: #F0EEE6;
+    --ai-bg:   #FFFFFF;
 }
+
 *, *::before, *::after { box-sizing: border-box; }
 
 html, body,
@@ -47,50 +48,52 @@ section.main {
 
 /* ── Header ── */
 .doc-header {
-    border-bottom: 1.5px solid var(--border);
-    padding-bottom: 1rem;
-    margin-bottom: 1.5rem;
-    padding-top: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.2rem;
+    margin-bottom: 2rem;
+    padding-top: 2.5rem;
 }
 .doc-header h1 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 600;
     color: var(--navy);
-    letter-spacing: -0.03em;
-    margin: 0;
+    letter-spacing: -0.04em;
+    margin: 0 0 4px;
 }
 .doc-header p {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: var(--muted);
-    font-weight: 300;
-    margin: 3px 0 0;
+    font-weight: 400;
+    margin: 0;
 }
 
 /* ── Buttons ── */
 .stButton > button {
-    background: var(--teal) !important;
+    background: var(--navy) !important;
     color: #FFFFFF !important;
     border: none !important;
-    border-radius: 8px !important;
-    font-size: 0.83rem !important;
+    border-radius: 6px !important;
+    font-size: 0.82rem !important;
     font-weight: 500 !important;
-    padding: 0.45rem 1.2rem !important;
+    padding: 0.45rem 1.1rem !important;
     font-family: 'Inter', sans-serif !important;
-    transition: background .15s !important;
+    transition: opacity .15s !important;
 }
-.stButton > button:hover { background: var(--teal2) !important; }
+.stButton > button:hover { opacity: 0.85 !important; }
 
 /* ── File uploader ── */
 [data-testid="stFileUploaderDropzone"] {
     background: var(--panel) !important;
-    border: 1.5px dashed var(--border) !important;
-    border-radius: 10px !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
 }
 [data-testid="stFileUploader"] label {
     font-size: 0.85rem !important;
+    color: var(--muted) !important;
+}
+[data-testid="stFileUploaderDropzone"] p,
+[data-testid="stFileUploaderDropzone"] span,
+[data-testid="stFileUploaderDropzone"] small {
     color: var(--muted) !important;
 }
 
@@ -101,7 +104,7 @@ section.main {
     gap: 8px;
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 0.5rem 1rem;
     margin-bottom: 1rem;
     flex-wrap: wrap;
@@ -118,24 +121,24 @@ section.main {
 /* ── Chat bubbles ── */
 .bubble-user {
     background: var(--user-bg);
-    border-radius: 14px 14px 3px 14px;
-    padding: 0.7rem 1rem;
+    border-radius: 12px 12px 3px 12px;
+    padding: 0.75rem 1rem;
     margin: 0.5rem 0 0.5rem auto;
     max-width: 75%;
-    font-size: 0.87rem;
-    line-height: 1.55;
+    font-size: 0.9rem;
+    line-height: 1.6;
     color: var(--navy);
     width: fit-content;
 }
 .bubble-ai {
     background: var(--ai-bg);
     border: 1px solid var(--border);
-    border-radius: 14px 14px 14px 3px;
-    padding: 0.8rem 1rem;
+    border-radius: 12px 12px 12px 3px;
+    padding: 0.85rem 1rem;
     margin: 0.5rem auto 0.5rem 0;
     max-width: 85%;
-    font-size: 0.87rem;
-    line-height: 1.65;
+    font-size: 0.9rem;
+    line-height: 1.7;
     color: var(--navy);
     width: fit-content;
 }
@@ -147,42 +150,47 @@ section.main {
     padding-top: 0.5rem;
 }
 .cit-item {
-    border-left: 2px solid var(--teal);
+    border-left: 2px solid var(--border);
     padding: 0.4rem 0.7rem;
     margin: 0.3rem 0;
     font-size: 0.75rem;
     color: var(--muted);
-    border-radius: 0 6px 6px 0;
+    border-radius: 0 4px 4px 0;
     background: var(--panel);
 }
 .cit-src {
     font-weight: 600;
-    color: var(--teal);
+    color: var(--navy);
     font-size: 0.71rem;
     margin-bottom: 2px;
     font-family: monospace !important;
 }
 .highlight-keyword {
-    background: #B2E8E2;
+    background: #FEF3C7;
     border-radius: 2px;
     padding: 0 2px;
 }
 
 /* ── Chat input ── */
 [data-testid="stChatInput"] textarea {
-    background: #FFFFFF !important;
-    border: 1.5px solid var(--border) !important;
-    border-radius: 10px !important;
-    font-size: 0.88rem !important;
+    background: var(--panel) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    font-size: 0.9rem !important;
     color: var(--navy) !important;
     font-family: 'Inter', sans-serif !important;
+}
+[data-testid="stChatInput"] {
+    background: var(--panel) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
 }
 
 /* ── Selectbox ── */
 [data-testid="stSelectbox"] > div > div {
     background: var(--panel) !important;
     border: 1px solid var(--border) !important;
-    border-radius: 8px !important;
+    border-radius: 6px !important;
     font-size: 0.82rem !important;
     color: var(--navy) !important;
 }
@@ -191,45 +199,29 @@ section.main {
 .err-box {
     background: #FDF0EE;
     border: 1px solid #E8B4AE;
-    border-radius: 8px;
+    border-radius: 6px;
     padding: 0.7rem 1rem;
     font-size: 0.82rem;
     color: #8B2019;
     margin: 0.5rem 0;
 }
 
+/* ── Bottom ── */
 [data-testid="stBottom"] > div,
 .stChatFloatingInputContainer {
-    background: #F9FAFB !important;
+    background: #FFFFFF !important;
 }
 
-/* مستطيل الشات */
-[data-testid="stChatInput"] textarea {
-    background: #FFFFFF !important;
-    border: none !important;
-    border-radius: 10px !important;
-    color: #0A0E1A !important;
-}
-
-[data-testid="stChatInput"] {
-    background: #FFFFFF !important;
-    border: none !important;
-    border-radius: 10px !important;
-}
 hr {
-    border-color: #1E3A6E !important;
+    border-color: var(--border) !important;
 }
-[data-testid="stFileUploaderDropzone"] p,
-[data-testid="stFileUploaderDropzone"] span,
-[data-testid="stFileUploaderDropzone"] small {
-    color: #6B7280  !important;
-}
+
 .doc-header p {
-    font-size: 1.2rem !important;
-    font-weight: 300 !important;
-    letter-spacing: 0.01em !important;
+    font-size: 0.95rem !important;
+    font-weight: 400 !important;
 }
 </style>
+""", unsafe_allow_html=True)
 """, unsafe_allow_html=True)
 
 # ── Session state ─────────────────────────────────────────────────────────
