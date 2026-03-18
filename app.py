@@ -294,6 +294,20 @@ hr { border-color: var(--line) !important; }
     display: flex !important;
     visibility: visible !important;
 }
+
+/* زر فتح الـ Sidebar */
+[data-testid="collapsedControl"] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: all !important;
+}
+
+button[kind="header"] {
+    display: flex !important;
+    visibility: visible !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
