@@ -18,24 +18,25 @@ model="gemini-2.5-flash",
 
 
 RAG_PROMPT = ChatPromptTemplate.from_template("""
-أنت مساعد ذكي متخصص في تحليل المستندات والإجابة على الأسئلة بدقة.
+You are an intelligent assistant specializing in document analysis and answering questions accurately.
 
-استخدم فقط المعلومات الموجودة في السياق التالي للإجابة على السؤال.
-إذا لم تجد الإجابة في السياق، قل بوضوح "لم أجد هذه المعلومات في المستندات المرفوعة."
+Use only the information provided in the following context to answer the question.
+If you do not find the answer in the context, clearly say "I did not find this information in the uploaded documents."
 
-**السياق من المستندات:**
+**Context from the documents:**
 {context}
 
-**السؤال:** {question}
+**Question:** {question}
 
-**تعليمات الإجابة:**
-- أجب بشكل واضح ومنظم
-- أشر إلى المصدر عند الاقتباس (مثال: [المصدر: اسم_الملف، صفحة X])
-- إذا كانت المعلومات من أكثر من مصدر، اذكر كل المصادر
-- استخدم نفس لغة السؤال (عربي أو إنجليزي)
+**Answer Instructions:**
+- Answer clearly and systematically
+- Cite the source when quoting (e.g., [Source: File_Name, page X])
+- If the information is from more than one source, mention all sources
+- Use the same language as the question (Arabic or English)
 
-**الإجابة:**
-""")
+**Answer:**
+"""
+                                              
 
 
 def format_context(docs_with_scores: List[tuple]) -> tuple[str, List[Dict]]:
@@ -64,7 +65,7 @@ def format_context(docs_with_scores: List[tuple]) -> tuple[str, List[Dict]]:
 def answer_question(question: str, docs_with_scores: List[tuple]) -> Dict[str, Any]:
     if not docs_with_scores:
         return {
-            "answer": "❌ لم أجد أي مستندات مرفوعة. الرجاء رفع ملف أولاً.",
+            "answer": " لم أجد أي مستندات مرفوعة. الرجاء رفع ملف أولاً.",
             "citations": [],
         }
 
