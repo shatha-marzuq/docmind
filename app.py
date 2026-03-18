@@ -343,7 +343,7 @@ with st.sidebar:
             DocMind
         </div>
         <div style="font-size:0.75rem;color:#9a9a92;font-weight:300;margin-top:5px;">
-            Chat with your documents using AI
+       Chat with your documents intelligently
         </div>
     </div>
     """, unsafe_allow_html=True)
