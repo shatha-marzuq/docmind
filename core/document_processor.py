@@ -32,7 +32,7 @@ def process_uploaded_file(uploaded_file) -> List[Document]:
     ext = Path(uploaded_file.name).suffix.lower()
 
     if ext not in SUPPORTED_EXTENSIONS:
-        raise ValueError(f"❌ نوع الملف غير مدعوم: {ext}")
+        raise ValueError(f"File type not supported: {ext}")
 
     # Save to temp file
     with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as tmp:
