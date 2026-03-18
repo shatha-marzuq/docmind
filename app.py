@@ -9,10 +9,29 @@ from core.hybrid_search import HybridRetriever
 
 load_dotenv()
 
-st.set_page_config(page_title="DocMind", layout="wide", initial_sidebar_state="expanded")
 
 st.markdown("""
 <style>
+/* إظهار الـ Sidebar دايماً */
+[data-testid="stSidebar"] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+    background: var(--surface) !important;
+    border-right: 0.5px solid var(--line) !important;
+    min-width: 280px !important;
+    max-width: 280px !important;
+}
+[data-testid="stSidebarContent"] {
+    display: flex !important;
+    visibility: visible !important;
+    padding: 1.5rem 1.2rem !important;
+}
+[data-testid="stSidebarCollapseButton"] {
+    display: none !important;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap');
 
 :root {
