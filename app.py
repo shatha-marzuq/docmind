@@ -10,24 +10,28 @@ from core.hybrid_search import HybridRetriever
 load_dotenv()
 
 st.set_page_config(page_title="DocMind", layout="centered", initial_sidebar_state="collapsed")
+
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap');
 
 :root {
-    --bg:         #faf9f6;
-    --white:      #ffffff;
-    --ink:        #1a1a18;
-    --ink2:       #5a5a54;
-    --ink3:       #9a9a92;
-    --line:       #e8e6e0;
-    --line2:      #f0ede6;
-    --teal:       #0f6e56;
-    --teal-bg:    #e1f5ee;
-    --accent:     #1D9E75;
+    --bg:           #faf9f6;
+    --white:        #ffffff;
+    --ink:          #1a1a18;
+    --ink2:         #5a5a54;
+    --ink3:         #9a9a92;
+    --line:         #e8e6e0;
+    --line2:        #f0ede6;
+    --teal:         #0f6e56;
+    --teal-bg:      #e1f5ee;
+    --accent:       #1D9E75;
     --accent-light: #c0f0df;
-    --user-bg:    #1a1a18;
-    --user-text:  #f5f4f0;
+    --user-bg:      #1a1a18;
+    --user-text:    #f5f4f0;
+    --surface:      #faf9f6;
+    --radius:       16px;
+    --r-sm:         8px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -52,9 +56,9 @@ section.main {
 
 /* ── Header ── */
 .doc-header {
-    padding: 2rem 0 1.2rem;
+    padding: 2.5rem 0 1.4rem;
     border-bottom: 0.5px solid var(--line);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.8rem;
 }
 .doc-header h1 {
     font-family: 'Instrument Serif', serif !important;
@@ -62,22 +66,34 @@ section.main {
     font-weight: 400;
     color: var(--ink);
     letter-spacing: -0.5px;
-    margin: 0 0 4px;
+    margin: 0 0 5px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 .brand-dot {
-    width: 8px; height: 8px;
+    width: 9px; height: 9px;
     background: var(--accent);
     border-radius: 50%;
     display: inline-block;
+    flex-shrink: 0;
 }
 .doc-header p {
     font-size: 0.82rem;
     color: var(--ink3);
     font-weight: 300;
     margin: 0;
+    letter-spacing: 0.2px;
+}
+
+/* ── Controls row ── */
+.section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    color: var(--ink3);
+    text-transform: uppercase;
+    margin-bottom: 8px;
 }
 
 /* ── Buttons ── */
@@ -85,7 +101,7 @@ section.main {
     background: var(--white) !important;
     color: var(--ink2) !important;
     border: 0.5px solid var(--line) !important;
-    border-radius: 8px !important;
+    border-radius: var(--r-sm) !important;
     font-size: 0.78rem !important;
     font-weight: 400 !important;
     padding: 0.4rem 1rem !important;
@@ -97,11 +113,21 @@ section.main {
     color: var(--ink) !important;
 }
 
+/* danger button */
+.btn-danger > button {
+    color: #a32d2d !important;
+    border-color: #fca5a5 !important;
+}
+.btn-danger > button:hover {
+    background: #fcebeb !important;
+    border-color: #e24b4a !important;
+}
+
 /* ── File uploader ── */
 [data-testid="stFileUploaderDropzone"] {
     background: var(--white) !important;
     border: 1.5px dashed var(--line) !important;
-    border-radius: 16px !important;
+    border-radius: var(--radius) !important;
     transition: all 0.2s !important;
 }
 [data-testid="stFileUploaderDropzone"]:hover {
@@ -125,12 +151,12 @@ section.main {
     align-items: center;
     gap: 8px;
     background: var(--teal-bg);
-    border-radius: 8px;
+    border: 0.5px solid rgba(29,158,117,0.2);
+    border-radius: var(--r-sm);
     padding: 8px 12px;
     margin-bottom: 1rem;
     font-size: 0.75rem;
     color: var(--teal);
-    font-weight: 400;
 }
 .ready-dot {
     width: 6px; height: 6px;
@@ -139,45 +165,62 @@ section.main {
     display: inline-block;
     flex-shrink: 0;
 }
+.ready-badge {
+    font-size: 9px;
+    padding: 1px 6px;
+    background: rgba(29,158,117,0.15);
+    color: var(--teal);
+    border-radius: 20px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-left: auto;
+}
 
 /* ── Chat bubbles ── */
+.msg-wrap-user {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: 0.6rem 0;
+}
+.msg-wrap-ai {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0.6rem 0;
+}
+.msg-role {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 5px;
+}
 .bubble-user {
     background: var(--user-bg);
     color: var(--user-text);
     border-radius: 16px 16px 4px 16px;
     padding: 0.75rem 1rem;
-    margin: 0.5rem 0 0.5rem auto;
     max-width: 72%;
     font-size: 0.88rem;
-    line-height: 1.6;
-    width: fit-content;
+    line-height: 1.65;
+    font-weight: 300;
 }
 .bubble-ai {
-    background: var(--white);
+    background: var(--surface);
     border: 0.5px solid var(--line);
     border-radius: 16px 16px 16px 4px;
     padding: 0.85rem 1rem;
-    margin: 0.5rem auto 0.5rem 0;
     max-width: 82%;
     font-size: 0.88rem;
     line-height: 1.7;
     color: var(--ink);
-    width: fit-content;
-}
-.msg-role {
-    font-size: 0.7rem;
-    color: var(--ink3);
-    font-weight: 500;
-    letter-spacing: 0.3px;
-    margin-bottom: 4px;
-    display: block;
 }
 
 /* ── Citations ── */
 .cit-wrap {
     margin-top: 0.6rem;
-    border-top: 0.5px solid var(--line);
-    padding-top: 0.5rem;
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
@@ -186,9 +229,10 @@ section.main {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    padding: 3px 8px;
+    padding: 3px 9px;
     background: var(--teal-bg);
-    border-radius: 20px;
+    border: 0.5px solid rgba(29,158,117,0.2);
+    border-radius: 6px;
     font-size: 0.72rem;
     color: var(--teal);
     font-weight: 400;
@@ -207,24 +251,27 @@ section.main {
 
 /* ── Chat input ── */
 [data-testid="stChatInput"] textarea {
-    background: var(--white) !important;
+    background: var(--surface) !important;
     border: 0.5px solid var(--line) !important;
-    border-radius: 12px !important;
+    border-radius: 14px !important;
     font-size: 0.88rem !important;
     color: var(--ink) !important;
     font-family: 'DM Sans', sans-serif !important;
 }
 [data-testid="stChatInput"] {
-    background: var(--white) !important;
+    background: var(--surface) !important;
     border: 0.5px solid var(--line) !important;
-    border-radius: 12px !important;
+    border-radius: 14px !important;
+}
+[data-testid="stChatInput"]:focus-within {
+    border-color: var(--accent) !important;
 }
 
 /* ── Selectbox ── */
 [data-testid="stSelectbox"] > div > div {
     background: var(--line2) !important;
     border: 0.5px solid var(--line) !important;
-    border-radius: 8px !important;
+    border-radius: var(--r-sm) !important;
     font-size: 0.8rem !important;
     color: var(--ink) !important;
     font-family: 'DM Sans', sans-serif !important;
@@ -233,7 +280,7 @@ section.main {
 /* ── Expander ── */
 [data-testid="stExpander"] {
     border: 0.5px solid var(--line) !important;
-    border-radius: 8px !important;
+    border-radius: var(--r-sm) !important;
     background: var(--white) !important;
 }
 
@@ -241,7 +288,7 @@ section.main {
 .err-box {
     background: #fff5f5;
     border: 0.5px solid #fca5a5;
-    border-radius: 8px;
+    border-radius: var(--r-sm);
     padding: 0.7rem 1rem;
     font-size: 0.82rem;
     color: #991b1b;
@@ -259,6 +306,7 @@ hr {
 }
 </style>
 """, unsafe_allow_html=True)
+
 # ── Session state ─────────────────────────────────────────────────────────
 defaults = {
     "chat_history": [],
@@ -288,13 +336,15 @@ def highlight_keywords(text, query):
 st.markdown("""
 <div class="doc-header">
     <div>
-        <h1>DocMind</h1>
-        <p>Chat with your documents intelligently</p>
+        <h1><span class="brand-dot"></span>DocMind</h1>
+        <p>Chat with your documents using AI</p>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
 # ── Top controls ──────────────────────────────────────────────────────────
+top_k = 5  # default
+
 col1, col2, col3 = st.columns([2, 1, 1])
 with col1:
     search_mode = st.selectbox("", ["Hybrid", "Semantic", "Keyword"], label_visibility="collapsed")
@@ -309,7 +359,7 @@ with col3:
         clear_vector_store()
         st.rerun()
 
-with st.expander("Advanced Settings"):
+with st.expander("⚙️ Advanced Settings"):
     depth = st.selectbox(
         "Search Depth",
         [
@@ -326,7 +376,8 @@ with st.expander("Advanced Settings"):
     else:
         top_k = 10
 
-st.markdown("<hr style='border:none;border-top:1px solid #C8D0E8;margin:0.5rem 0 1rem'>", unsafe_allow_html=True)
+st.markdown("<hr style='border:none;border-top:0.5px solid #e8e6e0;margin:0.8rem 0 1.2rem'>", unsafe_allow_html=True)
+
 # ── Upload ────────────────────────────────────────────────────────────────
 if not st.session_state.documents_loaded:
     uploaded_files = st.file_uploader(
@@ -356,13 +407,28 @@ if not st.session_state.documents_loaded:
                 except Exception as e:
                     st.markdown(f'<div class="err-box">{e}</div>', unsafe_allow_html=True)
 else:
-    pills = "".join([f'<span style="background:#E5E7EB;border-radius:6px;padding:2px 8px;font-size:0.73rem;margin:2px;">{n}</span>' for n in st.session_state.uploaded_files_names])
-    st.markdown(f'<div class="upload-strip"><span class="ready-dot"></span>&nbsp;Ready &nbsp;{pills}</div>', unsafe_allow_html=True)
+    pills = "".join([
+        f'<span style="font-weight:500;color:#0f6e56;">{n}</span>'
+        for n in st.session_state.uploaded_files_names
+    ])
+    st.markdown(
+        f'<div class="upload-strip">'
+        f'<span class="ready-dot"></span>&nbsp;{pills}'
+        f'<span class="ready-badge">READY</span>'
+        f'</div>',
+        unsafe_allow_html=True
+    )
 
 # ── Chat ──────────────────────────────────────────────────────────────────
 for msg in st.session_state.chat_history:
     if msg["role"] == "user":
-        st.markdown(f'<div class="bubble-user">{msg["content"]}</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="msg-wrap-user">'
+            f'<span class="msg-role">You</span>'
+            f'<div class="bubble-user">{msg["content"]}</div>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
     else:
         cit_html = ""
         if msg.get("citations"):
@@ -370,14 +436,25 @@ for msg in st.session_state.chat_history:
             for cit in msg["citations"]:
                 page_info = f" · p.{cit['page']}" if cit.get("page") else ""
                 hl = highlight_keywords(cit["content"], msg.get("query", ""))
-                items += f'<div class="cit-item"><div class="cit-src">{cit["source"]}{page_info}</div>{hl}</div>'
+                items += (
+                    f'<div class="cit-item">'
+                    f'<span class="cit-src">{cit["source"]}{page_info}</span>'
+                    f'</div>'
+                )
             cit_html = f'<div class="cit-wrap">{items}</div>'
-        st.markdown(f'<div class="bubble-ai">{msg["content"]}{cit_html}</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="msg-wrap-ai">'
+            f'<span class="msg-role">DocMind</span>'
+            f'<div class="bubble-ai">{msg["content"]}{cit_html}</div>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
 
-placeholder = "Ask anything about your documents..." if st.session_state.documents_loaded else "Upload a document to start..."
+# ── Chat input ────────────────────────────────────────────────────────────
+placeholder = "Ask anything about your documents…" if st.session_state.documents_loaded else "Upload a document to start…"
 if question := st.chat_input(placeholder, disabled=not st.session_state.documents_loaded):
     st.session_state.chat_history.append({"role": "user", "content": question})
-    with st.spinner("Searching..."):
+    with st.spinner("Searching…"):
         try:
             if search_mode == "Hybrid":
                 docs_with_scores = st.session_state.hybrid_retriever.retrieve(question, top_k)
