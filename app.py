@@ -43,12 +43,17 @@ section.main {
 }
 
 [data-testid="stHeader"],
-[data-testid="stHeader"],
 #MainMenu, footer,
 [data-testid="stToolbar"],
 [data-testid="stDecoration"] {
     display: none !important;
     visibility: hidden !important;
+}
+
+/* منع إغلاق الـ Sidebar */
+[data-testid="stSidebarCollapseButton"],
+[data-testid="collapsedControl"] {
+    display: none !important;
 }
 
 /* ── Sidebar ── */
@@ -136,7 +141,6 @@ section.main {
 .chat-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: 1.2rem 0 1rem;
     border-bottom: 0.5px solid var(--line);
     margin-bottom: 1.2rem;
@@ -290,24 +294,6 @@ hr { border-color: var(--line) !important; }
     margin-bottom: 8px;
     display: block;
 }
-[data-testid="collapsedControl"] {
-    display: flex !important;
-    visibility: visible !important;
-}
-
-/* زر فتح الـ Sidebar */
-[data-testid="collapsedControl"] {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: all !important;
-}
-
-button[kind="header"] {
-    display: flex !important;
-    visibility: visible !important;
-}
-
 </style>
 """, unsafe_allow_html=True)
 
