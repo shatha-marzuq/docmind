@@ -9,15 +9,15 @@ from core.hybrid_search import HybridRetriever
 
 load_dotenv()
 
-st.set_page_config(page_title="DocMind", layout="centered", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="DocMind", layout="wide", initial_sidebar_state="expanded")
 
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap');
 
 :root {
-    --bg:           #faf9f6;
-    --white:        #ffffff;
+    --bg:           #ffffff;
+    --surface:      #faf9f6;
     --ink:          #1a1a18;
     --ink2:         #5a5a54;
     --ink3:         #9a9a92;
@@ -26,12 +26,10 @@ st.markdown("""
     --teal:         #0f6e56;
     --teal-bg:      #e1f5ee;
     --accent:       #1D9E75;
-    --accent-light: #c0f0df;
     --user-bg:      #1a1a18;
     --user-text:    #f5f4f0;
-    --surface:      #faf9f6;
-    --radius:       16px;
     --r-sm:         8px;
+    --radius:       16px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -45,7 +43,6 @@ section.main {
 }
 
 [data-testid="stHeader"],
-[data-testid="stSidebar"],
 [data-testid="collapsedControl"],
 #MainMenu, footer,
 [data-testid="stToolbar"],
@@ -54,51 +51,20 @@ section.main {
     visibility: hidden !important;
 }
 
-/* ── Header ── */
-.doc-header {
-    padding: 2.5rem 0 1.4rem;
-    border-bottom: 0.5px solid var(--line);
-    margin-bottom: 1.8rem;
+/* ── Sidebar ── */
+[data-testid="stSidebar"] {
+    background: var(--surface) !important;
+    border-right: 0.5px solid var(--line) !important;
+    min-width: 280px !important;
+    max-width: 280px !important;
 }
-.doc-header h1 {
-    font-family: 'Instrument Serif', serif !important;
-    font-size: 2rem;
-    font-weight: 400;
-    color: var(--ink);
-    letter-spacing: -0.5px;
-    margin: 0 0 5px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.brand-dot {
-    width: 9px; height: 9px;
-    background: var(--accent);
-    border-radius: 50%;
-    display: inline-block;
-    flex-shrink: 0;
-}
-.doc-header p {
-    font-size: 0.82rem;
-    color: var(--ink3);
-    font-weight: 300;
-    margin: 0;
-    letter-spacing: 0.2px;
-}
-
-/* ── Controls row ── */
-.section-label {
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 1.2px;
-    color: var(--ink3);
-    text-transform: uppercase;
-    margin-bottom: 8px;
+[data-testid="stSidebarContent"] {
+    padding: 1.5rem 1.2rem !important;
 }
 
 /* ── Buttons ── */
 .stButton > button {
-    background: var(--white) !important;
+    background: var(--bg) !important;
     color: var(--ink2) !important;
     border: 0.5px solid var(--line) !important;
     border-radius: var(--r-sm) !important;
@@ -113,29 +79,18 @@ section.main {
     color: var(--ink) !important;
 }
 
-/* danger button */
-.btn-danger > button {
-    color: #a32d2d !important;
-    border-color: #fca5a5 !important;
-}
-.btn-danger > button:hover {
-    background: #fcebeb !important;
-    border-color: #e24b4a !important;
-}
-
 /* ── File uploader ── */
 [data-testid="stFileUploaderDropzone"] {
-    background: var(--white) !important;
+    background: var(--bg) !important;
     border: 1.5px dashed var(--line) !important;
     border-radius: var(--radius) !important;
-    transition: all 0.2s !important;
 }
 [data-testid="stFileUploaderDropzone"]:hover {
     border-color: var(--accent) !important;
     background: var(--teal-bg) !important;
 }
 [data-testid="stFileUploader"] label {
-    font-size: 0.82rem !important;
+    font-size: 0.78rem !important;
     color: var(--ink3) !important;
     font-family: 'DM Sans', sans-serif !important;
 }
@@ -143,6 +98,7 @@ section.main {
 [data-testid="stFileUploaderDropzone"] span,
 [data-testid="stFileUploaderDropzone"] small {
     color: var(--ink3) !important;
+    font-size: 0.75rem !important;
 }
 
 /* ── Upload strip ── */
@@ -153,9 +109,9 @@ section.main {
     background: var(--teal-bg);
     border: 0.5px solid rgba(29,158,117,0.2);
     border-radius: var(--r-sm);
-    padding: 8px 12px;
-    margin-bottom: 1rem;
-    font-size: 0.75rem;
+    padding: 7px 10px;
+    margin-bottom: 6px;
+    font-size: 0.74rem;
     color: var(--teal);
 }
 .ready-dot {
@@ -176,18 +132,44 @@ section.main {
     margin-left: auto;
 }
 
+/* ── Chat header ── */
+.chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 0 1rem;
+    border-bottom: 0.5px solid var(--line);
+    margin-bottom: 1.2rem;
+}
+.chat-title {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.chat-doc-tag {
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--ink3);
+    background: var(--line2);
+    padding: 2px 8px;
+    border-radius: 20px;
+}
+
 /* ── Chat bubbles ── */
 .msg-wrap-user {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    margin: 0.6rem 0;
+    margin: 0.7rem 0;
 }
 .msg-wrap-ai {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin: 0.6rem 0;
+    margin: 0.7rem 0;
 }
 .msg-role {
     font-size: 10px;
@@ -235,7 +217,6 @@ section.main {
     border-radius: 6px;
     font-size: 0.72rem;
     color: var(--teal);
-    font-weight: 400;
 }
 .cit-src {
     font-weight: 500;
@@ -263,16 +244,13 @@ section.main {
     border: 0.5px solid var(--line) !important;
     border-radius: 14px !important;
 }
-[data-testid="stChatInput"]:focus-within {
-    border-color: var(--accent) !important;
-}
 
 /* ── Selectbox ── */
 [data-testid="stSelectbox"] > div > div {
     background: var(--line2) !important;
     border: 0.5px solid var(--line) !important;
     border-radius: var(--r-sm) !important;
-    font-size: 0.8rem !important;
+    font-size: 0.78rem !important;
     color: var(--ink) !important;
     font-family: 'DM Sans', sans-serif !important;
 }
@@ -281,7 +259,7 @@ section.main {
 [data-testid="stExpander"] {
     border: 0.5px solid var(--line) !important;
     border-radius: var(--r-sm) !important;
-    background: var(--white) !important;
+    background: var(--bg) !important;
 }
 
 /* ── Error ── */
@@ -301,8 +279,16 @@ section.main {
     background: var(--bg) !important;
 }
 
-hr {
-    border-color: var(--line) !important;
+hr { border-color: var(--line) !important; }
+
+.section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    color: #9a9a92;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -332,94 +318,110 @@ def highlight_keywords(text, query):
             result = pattern.sub(lambda m: f'<span class="highlight-keyword">{m.group()}</span>', result)
     return result
 
-# ── Header ────────────────────────────────────────────────────────────────
-st.markdown("""
-<div class="doc-header">
-    <div>
-        <h1><span class="brand-dot"></span>DocMind</h1>
-        <p>Chat with your documents using AI</p>
+# ── Sidebar ────────────────────────────────────────────────────────────────
+top_k = 5
+
+with st.sidebar:
+    st.markdown("""
+    <div style="padding:0.5rem 0 1.8rem;">
+        <div style="font-family:'Instrument Serif',serif;font-size:1.6rem;color:#1a1a18;display:flex;align-items:center;gap:9px;">
+            <span style="width:8px;height:8px;background:#1D9E75;border-radius:50%;display:inline-block;flex-shrink:0;"></span>
+            DocMind
+        </div>
+        <div style="font-size:0.75rem;color:#9a9a92;font-weight:300;margin-top:5px;">
+            Chat with your documents using AI
+        </div>
     </div>
-</div>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
-# ── Top controls ──────────────────────────────────────────────────────────
-top_k = 5  # default
-
-col1, col2, col3 = st.columns([2, 1, 1])
-with col1:
+    st.markdown('<span class="section-label">Search Mode</span>', unsafe_allow_html=True)
     search_mode = st.selectbox("", ["Hybrid", "Semantic", "Keyword"], label_visibility="collapsed")
-with col2:
-    if st.button("Clear Chat", use_container_width=True):
-        st.session_state.chat_history = []
-        st.rerun()
-with col3:
-    if st.button("Reset All", use_container_width=True):
-        for k, v in defaults.items():
-            st.session_state[k] = v
-        clear_vector_store()
-        st.rerun()
 
-with st.expander("⚙️ Advanced Settings"):
-    depth = st.selectbox(
-        "Search Depth",
-        [
-            "Fast — quick specific questions",
-            "Balanced — most questions",
-            "Deep — summaries & analysis",
-        ],
-        index=1,
-    )
-    if depth.startswith("Fast"):
-        top_k = 3
-    elif depth.startswith("Balanced"):
-        top_k = 5
+    st.markdown("<hr style='border:none;border-top:0.5px solid #e8e6e0;margin:1.2rem 0'>", unsafe_allow_html=True)
+
+    with st.expander("⚙️ Advanced Settings"):
+        depth = st.selectbox(
+            "Search Depth",
+            ["Fast — quick specific questions", "Balanced — most questions", "Deep — summaries & analysis"],
+            index=1,
+        )
+        if depth.startswith("Fast"):
+            top_k = 3
+        elif depth.startswith("Balanced"):
+            top_k = 5
+        else:
+            top_k = 10
+
+    st.markdown("<hr style='border:none;border-top:0.5px solid #e8e6e0;margin:1.2rem 0'>", unsafe_allow_html=True)
+
+    st.markdown('<span class="section-label">Document</span>', unsafe_allow_html=True)
+
+    if not st.session_state.documents_loaded:
+        uploaded_files = st.file_uploader(
+            "Upload",
+            type=["pdf", "txt", "docx", "md"],
+            accept_multiple_files=True,
+            label_visibility="collapsed",
+        )
+        if uploaded_files:
+            if st.button("Process Documents", use_container_width=True):
+                with st.spinner("Processing..."):
+                    try:
+                        all_chunks = []
+                        for file in uploaded_files:
+                            docs = process_uploaded_file(file)
+                            chunks = chunk_documents(docs)
+                            all_chunks.extend(chunks)
+                        if st.session_state.embeddings is None:
+                            st.session_state.embeddings = get_embeddings()
+                        clear_vector_store()
+                        st.session_state.vector_store = add_documents_to_store(all_chunks, st.session_state.embeddings)
+                        st.session_state.hybrid_retriever = HybridRetriever(st.session_state.vector_store, all_chunks)
+                        st.session_state.all_chunks = all_chunks
+                        st.session_state.documents_loaded = True
+                        st.session_state.uploaded_files_names = [f.name for f in uploaded_files]
+                        st.session_state.chat_history = []
+                        st.rerun()
+                    except Exception as e:
+                        st.markdown(f'<div class="err-box">{e}</div>', unsafe_allow_html=True)
     else:
-        top_k = 10
+        for name in st.session_state.uploaded_files_names:
+            st.markdown(
+                f'<div class="upload-strip">'
+                f'<span class="ready-dot"></span>'
+                f'<span style="font-weight:500;color:#0f6e56;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{name}</span>'
+                f'<span class="ready-badge">READY</span>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
 
-st.markdown("<hr style='border:none;border-top:0.5px solid #e8e6e0;margin:0.8rem 0 1.2rem'>", unsafe_allow_html=True)
+    st.markdown("<hr style='border:none;border-top:0.5px solid #e8e6e0;margin:1.2rem 0'>", unsafe_allow_html=True)
 
-# ── Upload ────────────────────────────────────────────────────────────────
-if not st.session_state.documents_loaded:
-    uploaded_files = st.file_uploader(
-        "Upload your files",
-        type=["pdf", "txt", "docx", "md"],
-        accept_multiple_files=True,
-    )
-    if uploaded_files:
-        if st.button("Process Documents"):
-            with st.spinner("Processing..."):
-                try:
-                    all_chunks = []
-                    for file in uploaded_files:
-                        docs = process_uploaded_file(file)
-                        chunks = chunk_documents(docs)
-                        all_chunks.extend(chunks)
-                    if st.session_state.embeddings is None:
-                        st.session_state.embeddings = get_embeddings()
-                    clear_vector_store()
-                    st.session_state.vector_store = add_documents_to_store(all_chunks, st.session_state.embeddings)
-                    st.session_state.hybrid_retriever = HybridRetriever(st.session_state.vector_store, all_chunks)
-                    st.session_state.all_chunks = all_chunks
-                    st.session_state.documents_loaded = True
-                    st.session_state.uploaded_files_names = [f.name for f in uploaded_files]
-                    st.session_state.chat_history = []
-                    st.rerun()
-                except Exception as e:
-                    st.markdown(f'<div class="err-box">{e}</div>', unsafe_allow_html=True)
-else:
-    pills = "".join([
-        f'<span style="font-weight:500;color:#0f6e56;">{n}</span>'
-        for n in st.session_state.uploaded_files_names
-    ])
-    st.markdown(
-        f'<div class="upload-strip">'
-        f'<span class="ready-dot"></span>&nbsp;{pills}'
-        f'<span class="ready-badge">READY</span>'
-        f'</div>',
-        unsafe_allow_html=True
-    )
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Clear Chat", use_container_width=True):
+            st.session_state.chat_history = []
+            st.rerun()
+    with col2:
+        if st.button("Reset All", use_container_width=True):
+            for k, v in defaults.items():
+                st.session_state[k] = v
+            clear_vector_store()
+            st.rerun()
 
-# ── Chat ──────────────────────────────────────────────────────────────────
+# ── Chat area ──────────────────────────────────────────────────────────────
+doc_tag = ""
+if st.session_state.uploaded_files_names:
+    doc_tag = f'<span class="chat-doc-tag">{st.session_state.uploaded_files_names[0]}</span>'
+
+st.markdown(
+    f'<div class="chat-header">'
+    f'<div class="chat-title">Conversation {doc_tag}</div>'
+    f'</div>',
+    unsafe_allow_html=True
+)
+
+# ── Chat messages ──────────────────────────────────────────────────────────
 for msg in st.session_state.chat_history:
     if msg["role"] == "user":
         st.markdown(
@@ -435,7 +437,6 @@ for msg in st.session_state.chat_history:
             items = ""
             for cit in msg["citations"]:
                 page_info = f" · p.{cit['page']}" if cit.get("page") else ""
-                hl = highlight_keywords(cit["content"], msg.get("query", ""))
                 items += (
                     f'<div class="cit-item">'
                     f'<span class="cit-src">{cit["source"]}{page_info}</span>'
