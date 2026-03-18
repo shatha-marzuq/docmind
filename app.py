@@ -362,7 +362,7 @@ with st.sidebar:
 
     st.markdown("<hr style='border:none;border-top:0.5px solid #e8e6e0;margin:1.2rem 0'>", unsafe_allow_html=True)
 
-    with st.expander("⚙️ Advanced Settings"):
+    with st.expander("Advanced Settings"):
         depth = st.selectbox(
             "Search Depth",
             ["Fast — quick specific questions", "Balanced — most questions", "Deep — summaries & analysis"],
