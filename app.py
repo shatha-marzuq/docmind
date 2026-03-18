@@ -43,7 +43,7 @@ section.main {
 }
 
 [data-testid="stHeader"],
-[data-testid="collapsedControl"],
+[data-testid="stHeader"],
 #MainMenu, footer,
 [data-testid="stToolbar"],
 [data-testid="stDecoration"] {
@@ -289,6 +289,10 @@ hr { border-color: var(--line) !important; }
     text-transform: uppercase;
     margin-bottom: 8px;
     display: block;
+}
+[data-testid="collapsedControl"] {
+    display: flex !important;
+    visibility: visible !important;
 }
 </style>
 """, unsafe_allow_html=True)
