@@ -8,7 +8,11 @@ from core.rag_chain import answer_question
 from core.hybrid_search import HybridRetriever
 
 load_dotenv()
-
+st.set_page_config(
+    page_title="DocMind", 
+    layout="wide", 
+    initial_sidebar_state="collapsed"  # ← غير من expanded لـ collapsed
+)
 
 st.markdown("""
 <style>
@@ -67,15 +71,6 @@ section.main {
 [data-testid="stDecoration"] {
     display: none !important;
     visibility: hidden !important;
-}
-/* زر الإغلاق يظهر */
-[data-testid="stSidebarCollapseButton"] {
-    display: flex !important;
-    visibility: visible !important;
-}
-[data-testid="collapsedControl"] {
-    display: flex !important;
-    visibility: visible !important;
 }
 
 /* ── Sidebar ── */
