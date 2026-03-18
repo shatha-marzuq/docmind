@@ -68,11 +68,14 @@ section.main {
     display: none !important;
     visibility: hidden !important;
 }
-
-/* منع إغلاق الـ Sidebar */
-[data-testid="stSidebarCollapseButton"],
+/* زر الإغلاق يظهر */
+[data-testid="stSidebarCollapseButton"] {
+    display: flex !important;
+    visibility: visible !important;
+}
 [data-testid="collapsedControl"] {
-    display: none !important;
+    display: flex !important;
+    visibility: visible !important;
 }
 
 /* ── Sidebar ── */
