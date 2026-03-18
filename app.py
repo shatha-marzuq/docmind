@@ -12,18 +12,22 @@ load_dotenv()
 st.set_page_config(page_title="DocMind", layout="centered", initial_sidebar_state="collapsed")
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap');
 
 :root {
-    --bg:      #FFFFFF;
-    --navy:    #1A1A1A;
-    --panel:   #F7F7F5;
-    --border:  #E8E8E4;
-    --muted:   #8E8E8A;
-    --teal:    #D97706;
-    --teal2:   #F59E0B;
-    --user-bg: #F0EEE6;
-    --ai-bg:   #FFFFFF;
+    --bg:         #faf9f6;
+    --white:      #ffffff;
+    --ink:        #1a1a18;
+    --ink2:       #5a5a54;
+    --ink3:       #9a9a92;
+    --line:       #e8e6e0;
+    --line2:      #f0ede6;
+    --teal:       #0f6e56;
+    --teal-bg:    #e1f5ee;
+    --accent:     #1D9E75;
+    --accent-light: #c0f0df;
+    --user-bg:    #1a1a18;
+    --user-text:  #f5f4f0;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -33,7 +37,7 @@ html, body,
 [data-testid="stMain"],
 section.main {
     background: var(--bg) !important;
-    font-family: 'Inter', sans-serif !important;
+    font-family: 'DM Sans', sans-serif !important;
 }
 
 [data-testid="stHeader"],
@@ -48,53 +52,71 @@ section.main {
 
 /* ── Header ── */
 .doc-header {
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 1.2rem;
-    margin-bottom: 2rem;
-    padding-top: 2.5rem;
+    padding: 2rem 0 1.2rem;
+    border-bottom: 0.5px solid var(--line);
+    margin-bottom: 1.5rem;
 }
 .doc-header h1 {
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: var(--navy);
-    letter-spacing: -0.04em;
+    font-family: 'Instrument Serif', serif !important;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.5px;
     margin: 0 0 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.brand-dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: inline-block;
 }
 .doc-header p {
-    font-size: 0.95rem;
-    color: var(--muted);
-    font-weight: 400;
+    font-size: 0.82rem;
+    color: var(--ink3);
+    font-weight: 300;
     margin: 0;
 }
 
 /* ── Buttons ── */
 .stButton > button {
-    background: var(--navy) !important;
-    color: #FFFFFF !important;
-    border: none !important;
-    border-radius: 6px !important;
-    font-size: 0.82rem !important;
-    font-weight: 500 !important;
-    padding: 0.45rem 1.1rem !important;
-    font-family: 'Inter', sans-serif !important;
-    transition: opacity .15s !important;
+    background: var(--white) !important;
+    color: var(--ink2) !important;
+    border: 0.5px solid var(--line) !important;
+    border-radius: 8px !important;
+    font-size: 0.78rem !important;
+    font-weight: 400 !important;
+    padding: 0.4rem 1rem !important;
+    font-family: 'DM Sans', sans-serif !important;
+    transition: all .15s !important;
 }
-.stButton > button:hover { opacity: 0.85 !important; }
+.stButton > button:hover {
+    border-color: var(--ink3) !important;
+    color: var(--ink) !important;
+}
 
 /* ── File uploader ── */
 [data-testid="stFileUploaderDropzone"] {
-    background: var(--panel) !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 8px !important;
+    background: var(--white) !important;
+    border: 1.5px dashed var(--line) !important;
+    border-radius: 16px !important;
+    transition: all 0.2s !important;
+}
+[data-testid="stFileUploaderDropzone"]:hover {
+    border-color: var(--accent) !important;
+    background: var(--teal-bg) !important;
 }
 [data-testid="stFileUploader"] label {
-    font-size: 0.85rem !important;
-    color: var(--muted) !important;
+    font-size: 0.82rem !important;
+    color: var(--ink3) !important;
+    font-family: 'DM Sans', sans-serif !important;
 }
 [data-testid="stFileUploaderDropzone"] p,
 [data-testid="stFileUploaderDropzone"] span,
 [data-testid="stFileUploaderDropzone"] small {
-    color: var(--muted) !important;
+    color: var(--ink3) !important;
 }
 
 /* ── Upload strip ── */
@@ -102,127 +124,141 @@ section.main {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: var(--panel);
-    border: 1px solid var(--border);
+    background: var(--teal-bg);
     border-radius: 8px;
-    padding: 0.5rem 1rem;
+    padding: 8px 12px;
     margin-bottom: 1rem;
-    flex-wrap: wrap;
-    font-size: 0.76rem;
-    color: var(--muted);
+    font-size: 0.75rem;
+    color: var(--teal);
+    font-weight: 400;
 }
 .ready-dot {
-    width: 7px; height: 7px;
-    background: #5C9E6E;
+    width: 6px; height: 6px;
+    background: var(--accent);
     border-radius: 50%;
     display: inline-block;
+    flex-shrink: 0;
 }
 
 /* ── Chat bubbles ── */
 .bubble-user {
     background: var(--user-bg);
-    border-radius: 12px 12px 3px 12px;
+    color: var(--user-text);
+    border-radius: 16px 16px 4px 16px;
     padding: 0.75rem 1rem;
     margin: 0.5rem 0 0.5rem auto;
-    max-width: 75%;
-    font-size: 0.9rem;
+    max-width: 72%;
+    font-size: 0.88rem;
     line-height: 1.6;
-    color: var(--navy);
     width: fit-content;
 }
 .bubble-ai {
-    background: var(--ai-bg);
-    border: 1px solid var(--border);
-    border-radius: 12px 12px 12px 3px;
+    background: var(--white);
+    border: 0.5px solid var(--line);
+    border-radius: 16px 16px 16px 4px;
     padding: 0.85rem 1rem;
     margin: 0.5rem auto 0.5rem 0;
-    max-width: 85%;
-    font-size: 0.9rem;
+    max-width: 82%;
+    font-size: 0.88rem;
     line-height: 1.7;
-    color: var(--navy);
+    color: var(--ink);
     width: fit-content;
+}
+.msg-role {
+    font-size: 0.7rem;
+    color: var(--ink3);
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    margin-bottom: 4px;
+    display: block;
 }
 
 /* ── Citations ── */
 .cit-wrap {
     margin-top: 0.6rem;
-    border-top: 1px solid var(--border);
+    border-top: 0.5px solid var(--line);
     padding-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
 }
 .cit-item {
-    border-left: 2px solid var(--border);
-    padding: 0.4rem 0.7rem;
-    margin: 0.3rem 0;
-    font-size: 0.75rem;
-    color: var(--muted);
-    border-radius: 0 4px 4px 0;
-    background: var(--panel);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    background: var(--teal-bg);
+    border-radius: 20px;
+    font-size: 0.72rem;
+    color: var(--teal);
+    font-weight: 400;
 }
 .cit-src {
-    font-weight: 600;
-    color: var(--navy);
-    font-size: 0.71rem;
-    margin-bottom: 2px;
+    font-weight: 500;
+    color: var(--teal);
+    font-size: 0.7rem;
     font-family: monospace !important;
 }
 .highlight-keyword {
-    background: #FEF3C7;
+    background: #d1fae5;
     border-radius: 2px;
     padding: 0 2px;
 }
 
 /* ── Chat input ── */
 [data-testid="stChatInput"] textarea {
-    background: var(--panel) !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 8px !important;
-    font-size: 0.9rem !important;
-    color: var(--navy) !important;
-    font-family: 'Inter', sans-serif !important;
+    background: var(--white) !important;
+    border: 0.5px solid var(--line) !important;
+    border-radius: 12px !important;
+    font-size: 0.88rem !important;
+    color: var(--ink) !important;
+    font-family: 'DM Sans', sans-serif !important;
 }
 [data-testid="stChatInput"] {
-    background: var(--panel) !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 8px !important;
+    background: var(--white) !important;
+    border: 0.5px solid var(--line) !important;
+    border-radius: 12px !important;
 }
 
 /* ── Selectbox ── */
 [data-testid="stSelectbox"] > div > div {
-    background: var(--panel) !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 6px !important;
-    font-size: 0.82rem !important;
-    color: var(--navy) !important;
+    background: var(--line2) !important;
+    border: 0.5px solid var(--line) !important;
+    border-radius: 8px !important;
+    font-size: 0.8rem !important;
+    color: var(--ink) !important;
+    font-family: 'DM Sans', sans-serif !important;
+}
+
+/* ── Expander ── */
+[data-testid="stExpander"] {
+    border: 0.5px solid var(--line) !important;
+    border-radius: 8px !important;
+    background: var(--white) !important;
 }
 
 /* ── Error ── */
 .err-box {
-    background: #FDF0EE;
-    border: 1px solid #E8B4AE;
-    border-radius: 6px;
+    background: #fff5f5;
+    border: 0.5px solid #fca5a5;
+    border-radius: 8px;
     padding: 0.7rem 1rem;
     font-size: 0.82rem;
-    color: #8B2019;
+    color: #991b1b;
     margin: 0.5rem 0;
 }
 
 /* ── Bottom ── */
 [data-testid="stBottom"] > div,
 .stChatFloatingInputContainer {
-    background: #FFFFFF !important;
+    background: var(--bg) !important;
 }
 
 hr {
-    border-color: var(--border) !important;
-}
-
-.doc-header p {
-    font-size: 0.95rem !important;
-    font-weight: 400 !important;
+    border-color: var(--line) !important;
 }
 </style>
 """, unsafe_allow_html=True)
-
 # ── Session state ─────────────────────────────────────────────────────────
 defaults = {
     "chat_history": [],
