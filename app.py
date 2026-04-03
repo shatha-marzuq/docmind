@@ -11,8 +11,8 @@ load_dotenv()
 
 st.set_page_config(
     page_title="DocMind",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    layout="centered",
+    initial_sidebar_state="collapsed",
 )
 
 st.markdown("""
@@ -49,32 +49,18 @@ section.main {
 [data-testid="stHeader"],
 #MainMenu, footer,
 [data-testid="stToolbar"],
-[data-testid="stDecoration"] {
+[data-testid="stDecoration"],
+[data-testid="stSidebar"],
+[data-testid="collapsedControl"] {
     display: none !important;
     visibility: hidden !important;
 }
 
-/* ── Sidebar ── */
-[data-testid="stSidebar"] {
-    background: var(--surface) !important;
-    border-right: 0.5px solid var(--line) !important;
-    min-width: 280px !important;
-    max-width: 280px !important;
-}
-[data-testid="stSidebarContent"] {
-    padding: 1.5rem 1.2rem !important;
-}
-
-/* زر الإغلاق يظهر */
-[data-testid="stSidebarCollapseButton"] {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-}
-[data-testid="collapsedControl"] {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+/* ── Main content padding ── */
+[data-testid="stMainBlockContainer"] {
+    padding: 1.5rem 1.5rem 2rem !important;
+    max-width: 780px !important;
+    margin: 0 auto !important;
 }
 
 /* ── Buttons ── */
@@ -147,11 +133,43 @@ section.main {
     margin-left: auto;
 }
 
+/* ── Top nav bar ── */
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.4rem 0 1rem;
+    border-bottom: 0.5px solid var(--line);
+    margin-bottom: 1.2rem;
+}
+.brand {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.5rem;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+.brand-dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+.brand-sub {
+    font-size: 0.72rem;
+    color: var(--ink3);
+    font-weight: 300;
+    font-family: 'DM Sans', sans-serif;
+    margin-top: 1px;
+}
+
 /* ── Chat header ── */
 .chat-header {
     display: flex;
     align-items: center;
-    padding: 1.2rem 0 1rem;
+    padding: 0.8rem 0 0.8rem;
     border-bottom: 0.5px solid var(--line);
     margin-bottom: 1.2rem;
 }
@@ -275,6 +293,11 @@ section.main {
     border-radius: var(--r-sm) !important;
     background: var(--bg) !important;
 }
+[data-testid="stExpander"] summary {
+    font-size: 0.8rem !important;
+    color: var(--ink2) !important;
+    font-family: 'DM Sans', sans-serif !important;
+}
 
 /* ── Error ── */
 .err-box {
@@ -332,32 +355,35 @@ def highlight_keywords(text, query):
             result = pattern.sub(lambda m: f'<span class="highlight-keyword">{m.group()}</span>', result)
     return result
 
-# ── Sidebar ────────────────────────────────────────────────────────────────
+# ── Top bar ────────────────────────────────────────────────────────────────
+st.markdown("""
+<div class="top-bar">
+  <div>
+    <div class="brand">
+      <span class="brand-dot"></span>
+      DocMind
+    </div>
+    <div class="brand-sub">Chat with your documents intelligently</div>
+  </div>
+</div>
+""", unsafe_allow_html=True)
+
+# ── Settings + Upload (collapsible) ───────────────────────────────────────
 top_k = 5
 
-with st.sidebar:
-    st.markdown("""
-    <div style="padding:0.5rem 0 1.8rem;">
-        <div style="font-family:'Instrument Serif',serif;font-size:1.6rem;color:#1a1a18;display:flex;align-items:center;gap:9px;">
-            <span style="width:8px;height:8px;background:#1D9E75;border-radius:50%;display:inline-block;flex-shrink:0;"></span>
-            DocMind
-        </div>
-        <div style="font-size:0.75rem;color:#9a9a92;font-weight:300;margin-top:5px;">
-       Chat with your documents intelligently
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+with st.expander("⚙  Settings & Documents", expanded=not st.session_state.documents_loaded):
 
-    st.markdown('<span class="section-label">Search Mode</span>', unsafe_allow_html=True)
-    search_mode = st.selectbox("", ["Hybrid", "Semantic", "Keyword"], label_visibility="collapsed")
-
-    st.markdown("<hr style='border:none;border-top:0.5px solid #e8e6e0;margin:1.2rem 0'>", unsafe_allow_html=True)
-
-    with st.expander("⚙️ Advanced Settings"):
+    col_a, col_b = st.columns(2)
+    with col_a:
+        st.markdown('<span class="section-label">Search Mode</span>', unsafe_allow_html=True)
+        search_mode = st.selectbox("", ["Hybrid", "Semantic", "Keyword"], label_visibility="collapsed")
+    with col_b:
+        st.markdown('<span class="section-label">Search Depth</span>', unsafe_allow_html=True)
         depth = st.selectbox(
-            "Search Depth",
+            "",
             ["Fast — quick specific questions", "Balanced — most questions", "Deep — summaries & analysis"],
             index=1,
+            label_visibility="collapsed",
         )
         if depth.startswith("Fast"):
             top_k = 3
@@ -366,9 +392,8 @@ with st.sidebar:
         else:
             top_k = 10
 
-    st.markdown("<hr style='border:none;border-top:0.5px solid #e8e6e0;margin:1.2rem 0'>", unsafe_allow_html=True)
-
-    st.markdown('<span class="section-label">Document</span>', unsafe_allow_html=True)
+    st.markdown("<hr style='border:none;border-top:0.5px solid #e8e6e0;margin:0.8rem 0'>", unsafe_allow_html=True)
+    st.markdown('<span class="section-label">Documents</span>', unsafe_allow_html=True)
 
     if not st.session_state.documents_loaded:
         uploaded_files = st.file_uploader(
@@ -403,14 +428,14 @@ with st.sidebar:
             st.markdown(
                 f'<div class="upload-strip">'
                 f'<span class="ready-dot"></span>'
-                f'<span style="font-weight:500;color:#0f6e56;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{name}</span>'
+                f'<span style="font-weight:500;color:#0f6e56;flex:1;overflow:hidden;'
+                f'text-overflow:ellipsis;white-space:nowrap;">{name}</span>'
                 f'<span class="ready-badge">READY</span>'
                 f'</div>',
                 unsafe_allow_html=True
             )
 
-    st.markdown("<hr style='border:none;border-top:0.5px solid #e8e6e0;margin:1.2rem 0'>", unsafe_allow_html=True)
-
+    st.markdown("<hr style='border:none;border-top:0.5px solid #e8e6e0;margin:0.8rem 0'>", unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
         if st.button("Clear Chat", use_container_width=True):
