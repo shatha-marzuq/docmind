@@ -12,7 +12,7 @@ load_dotenv()
 st.set_page_config(
     page_title="DocMind",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 st.markdown("""
@@ -47,6 +47,9 @@ section.main {
 }
 
 [data-testid="stHeader"],
+[data-testid="stSidebar"],
+[data-testid="collapsedControl"],
+[data-testid="stSidebarCollapseButton"],
 #MainMenu, footer,
 [data-testid="stToolbar"],
 [data-testid="stDecoration"] {
@@ -54,56 +57,20 @@ section.main {
     visibility: hidden !important;
 }
 
-/* ── Sidebar ── */
-[data-testid="stSidebar"] {
-    background: var(--surface) !important;
-    border-right: 0.5px solid var(--line) !important;
-    min-width: 260px !important;
-    max-width: 260px !important;
-}
-[data-testid="stSidebarContent"] {
-    padding: 1.5rem 1.2rem !important;
-}
-[data-testid="stSidebarCollapseButton"] {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-}
-[data-testid="collapsedControl"] {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+[data-testid="stMainBlockContainer"] {
+    padding: 1rem 1rem 2rem !important;
+    max-width: 100% !important;
 }
 
-/* ── Floating menu button (mobile only) ── */
-.mobile-menu-btn {
-    display: none;
-    position: fixed;
-    bottom: 80px;
-    left: 16px;
-    z-index: 9999;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: var(--ink);
-    border: none;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
-}
-.mobile-menu-btn svg {
-    width: 20px;
-    height: 20px;
-    stroke: #fff;
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-}
-@media (max-width: 768px) {
-    .mobile-menu-btn {
-        display: flex !important;
-    }
+/* ── Left panel (settings) ── */
+.panel {
+    background: var(--surface);
+    border: 0.5px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.4rem 1.2rem;
+    height: fit-content;
+    position: sticky;
+    top: 1rem;
 }
 
 /* ── Buttons ── */
@@ -136,7 +103,6 @@ section.main {
 [data-testid="stFileUploader"] label {
     font-size: 0.78rem !important;
     color: var(--ink3) !important;
-    font-family: 'DM Sans', sans-serif !important;
 }
 [data-testid="stFileUploaderDropzone"] p,
 [data-testid="stFileUploaderDropzone"] span,
@@ -182,7 +148,7 @@ section.main {
 .chat-header {
     display: flex;
     align-items: center;
-    padding: 1.2rem 0 1rem;
+    padding: 0 0 1rem;
     border-bottom: 0.5px solid var(--line);
     margin-bottom: 1.2rem;
 }
@@ -229,7 +195,7 @@ section.main {
     color: var(--user-text);
     border-radius: 16px 16px 4px 16px;
     padding: 0.75rem 1rem;
-    max-width: 72%;
+    max-width: 80%;
     font-size: 0.88rem;
     line-height: 1.65;
     font-weight: 300;
@@ -239,7 +205,7 @@ section.main {
     border: 0.5px solid var(--line);
     border-radius: 16px 16px 16px 4px;
     padding: 0.85rem 1rem;
-    max-width: 82%;
+    max-width: 88%;
     font-size: 0.88rem;
     line-height: 1.7;
     color: var(--ink);
@@ -336,20 +302,6 @@ hr { border-color: var(--line) !important; }
     display: block;
 }
 </style>
-
-<!-- Floating button to open sidebar on mobile -->
-<button class="mobile-menu-btn" onclick="toggleSidebar()" title="Open Settings">
-    <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-</button>
-
-<script>
-function toggleSidebar() {
-    // Streamlit's sidebar toggle button
-    const btn = window.parent.document.querySelector('[data-testid="stSidebarCollapseButton"] button')
-               || window.parent.document.querySelector('[data-testid="collapsedControl"] button');
-    if (btn) btn.click();
-}
-</script>
 """, unsafe_allow_html=True)
 
 # ── Session state ─────────────────────────────────────────────────────────
@@ -377,18 +329,22 @@ def highlight_keywords(text, query):
             result = pattern.sub(lambda m: f'<span class="highlight-keyword">{m.group()}</span>', result)
     return result
 
-# ── Sidebar ────────────────────────────────────────────────────────────────
+# ── Layout: two columns ───────────────────────────────────────────────────
 top_k = 5
+col_left, col_right = st.columns([1, 2.8], gap="medium")
 
-with st.sidebar:
+# ── Left column: settings panel ───────────────────────────────────────────
+with col_left:
     st.markdown("""
-    <div style="padding:0.5rem 0 1.8rem;">
-        <div style="font-family:'Instrument Serif',serif;font-size:1.6rem;color:#1a1a18;display:flex;align-items:center;gap:9px;">
-            <span style="width:8px;height:8px;background:#1D9E75;border-radius:50%;display:inline-block;flex-shrink:0;"></span>
+    <div class="panel">
+        <div style="font-family:'Instrument Serif',serif;font-size:1.5rem;color:#1a1a18;
+                    display:flex;align-items:center;gap:9px;margin-bottom:4px;">
+            <span style="width:8px;height:8px;background:#1D9E75;border-radius:50%;
+                         display:inline-block;flex-shrink:0;"></span>
             DocMind
         </div>
-        <div style="font-size:0.75rem;color:#9a9a92;font-weight:300;margin-top:5px;">
-       Chat with your documents intelligently
+        <div style="font-size:0.72rem;color:#9a9a92;font-weight:300;margin-bottom:1.4rem;">
+            Chat with your documents intelligently
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -396,7 +352,7 @@ with st.sidebar:
     st.markdown('<span class="section-label">Search Mode</span>', unsafe_allow_html=True)
     search_mode = st.selectbox("", ["Hybrid", "Semantic", "Keyword"], label_visibility="collapsed")
 
-    st.markdown("<hr style='border:none;border-top:0.5px solid #e8e6e0;margin:1.2rem 0'>", unsafe_allow_html=True)
+    st.markdown("<hr style='border:none;border-top:0.5px solid #e8e6e0;margin:1rem 0'>", unsafe_allow_html=True)
 
     with st.expander("⚙️ Advanced Settings"):
         depth = st.selectbox(
@@ -411,8 +367,7 @@ with st.sidebar:
         else:
             top_k = 10
 
-    st.markdown("<hr style='border:none;border-top:0.5px solid #e8e6e0;margin:1.2rem 0'>", unsafe_allow_html=True)
-
+    st.markdown("<hr style='border:none;border-top:0.5px solid #e8e6e0;margin:1rem 0'>", unsafe_allow_html=True)
     st.markdown('<span class="section-label">Document</span>', unsafe_allow_html=True)
 
     if not st.session_state.documents_loaded:
@@ -448,89 +403,88 @@ with st.sidebar:
             st.markdown(
                 f'<div class="upload-strip">'
                 f'<span class="ready-dot"></span>'
-                f'<span style="font-weight:500;color:#0f6e56;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{name}</span>'
+                f'<span style="font-weight:500;color:#0f6e56;flex:1;overflow:hidden;'
+                f'text-overflow:ellipsis;white-space:nowrap;">{name}</span>'
                 f'<span class="ready-badge">READY</span>'
                 f'</div>',
                 unsafe_allow_html=True
             )
 
-    st.markdown("<hr style='border:none;border-top:0.5px solid #e8e6e0;margin:1.2rem 0'>", unsafe_allow_html=True)
-
-    col1, col2 = st.columns(2)
-    with col1:
+    st.markdown("<hr style='border:none;border-top:0.5px solid #e8e6e0;margin:1rem 0'>", unsafe_allow_html=True)
+    c1, c2 = st.columns(2)
+    with c1:
         if st.button("Clear Chat", use_container_width=True):
             st.session_state.chat_history = []
             st.rerun()
-    with col2:
+    with c2:
         if st.button("Reset All", use_container_width=True):
             for k, v in defaults.items():
                 st.session_state[k] = v
             clear_vector_store()
             st.rerun()
 
-# ── Chat area ──────────────────────────────────────────────────────────────
-doc_tag = ""
-if st.session_state.uploaded_files_names:
-    doc_tag = f'<span class="chat-doc-tag">{st.session_state.uploaded_files_names[0]}</span>'
+# ── Right column: chat ────────────────────────────────────────────────────
+with col_right:
+    doc_tag = ""
+    if st.session_state.uploaded_files_names:
+        doc_tag = f'<span class="chat-doc-tag">{st.session_state.uploaded_files_names[0]}</span>'
 
-st.markdown(
-    f'<div class="chat-header">'
-    f'<div class="chat-title">Conversation {doc_tag}</div>'
-    f'</div>',
-    unsafe_allow_html=True
-)
+    st.markdown(
+        f'<div class="chat-header">'
+        f'<div class="chat-title">Conversation {doc_tag}</div>'
+        f'</div>',
+        unsafe_allow_html=True
+    )
 
-# ── Chat messages ──────────────────────────────────────────────────────────
-for msg in st.session_state.chat_history:
-    if msg["role"] == "user":
-        st.markdown(
-            f'<div class="msg-wrap-user">'
-            f'<span class="msg-role">You</span>'
-            f'<div class="bubble-user">{msg["content"]}</div>'
-            f'</div>',
-            unsafe_allow_html=True
-        )
-    else:
-        cit_html = ""
-        if msg.get("citations"):
-            items = ""
-            for cit in msg["citations"]:
-                page_info = f" · p.{cit['page']}" if cit.get("page") else ""
-                items += (
-                    f'<div class="cit-item">'
-                    f'<span class="cit-src">{cit["source"]}{page_info}</span>'
-                    f'</div>'
-                )
-            cit_html = f'<div class="cit-wrap">{items}</div>'
-        st.markdown(
-            f'<div class="msg-wrap-ai">'
-            f'<span class="msg-role">DocMind</span>'
-            f'<div class="bubble-ai">{msg["content"]}{cit_html}</div>'
-            f'</div>',
-            unsafe_allow_html=True
-        )
+    for msg in st.session_state.chat_history:
+        if msg["role"] == "user":
+            st.markdown(
+                f'<div class="msg-wrap-user">'
+                f'<span class="msg-role">You</span>'
+                f'<div class="bubble-user">{msg["content"]}</div>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        else:
+            cit_html = ""
+            if msg.get("citations"):
+                items = ""
+                for cit in msg["citations"]:
+                    page_info = f" · p.{cit['page']}" if cit.get("page") else ""
+                    items += (
+                        f'<div class="cit-item">'
+                        f'<span class="cit-src">{cit["source"]}{page_info}</span>'
+                        f'</div>'
+                    )
+                cit_html = f'<div class="cit-wrap">{items}</div>'
+            st.markdown(
+                f'<div class="msg-wrap-ai">'
+                f'<span class="msg-role">DocMind</span>'
+                f'<div class="bubble-ai">{msg["content"]}{cit_html}</div>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
 
-# ── Chat input ────────────────────────────────────────────────────────────
-placeholder = "Ask anything about your documents…" if st.session_state.documents_loaded else "Upload a document to start…"
-if question := st.chat_input(placeholder, disabled=not st.session_state.documents_loaded):
-    st.session_state.chat_history.append({"role": "user", "content": question})
-    with st.spinner("Searching…"):
-        try:
-            if search_mode == "Hybrid":
-                docs_with_scores = st.session_state.hybrid_retriever.retrieve(question, top_k)
-            elif search_mode == "Semantic":
-                docs_with_scores = st.session_state.vector_store.similarity_search_with_score(question, k=top_k)
-            else:
-                from core.hybrid_search import BM25Retriever
-                bm25 = BM25Retriever(st.session_state.all_chunks)
-                docs_with_scores = bm25.search(question, k=top_k)
-            result = answer_question(question, docs_with_scores)
-            st.session_state.chat_history.append({
-                "role": "assistant",
-                "content": result["answer"],
-                "citations": result["citations"],
-                "query": question,
-            })
-            st.rerun()
-        except Exception as e:
-            st.markdown(f'<div class="err-box">{e}</div>', unsafe_allow_html=True)
+    placeholder = "Ask anything about your documents…" if st.session_state.documents_loaded else "Upload a document to start…"
+    if question := st.chat_input(placeholder, disabled=not st.session_state.documents_loaded):
+        st.session_state.chat_history.append({"role": "user", "content": question})
+        with st.spinner("Searching…"):
+            try:
+                if search_mode == "Hybrid":
+                    docs_with_scores = st.session_state.hybrid_retriever.retrieve(question, top_k)
+                elif search_mode == "Semantic":
+                    docs_with_scores = st.session_state.vector_store.similarity_search_with_score(question, k=top_k)
+                else:
+                    from core.hybrid_search import BM25Retriever
+                    bm25 = BM25Retriever(st.session_state.all_chunks)
+                    docs_with_scores = bm25.search(question, k=top_k)
+                result = answer_question(question, docs_with_scores)
+                st.session_state.chat_history.append({
+                    "role": "assistant",
+                    "content": result["answer"],
+                    "citations": result["citations"],
+                    "query": question,
+                })
+                st.rerun()
+            except Exception as e:
+                st.markdown(f'<div class="err-box">{e}</div>', unsafe_allow_html=True)
