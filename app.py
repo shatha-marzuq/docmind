@@ -337,7 +337,7 @@ col_left, col_right = st.columns([1, 2.8], gap="medium")
 with col_left:
     st.markdown("""
     <div class="panel">
-        <div style="font-family:'Instrument Serif',serif;font-size:1.5rem;color:#1a1a18;
+        <div style="font-family:'DM Sans',serif;font-size:1.5rem;color:#1a1a18;
                     display:flex;align-items:center;gap:9px;margin-bottom:4px;">
             <span style="width:8px;height:8px;background:#1D9E75;border-radius:50%;
                          display:inline-block;flex-shrink:0;"></span>
