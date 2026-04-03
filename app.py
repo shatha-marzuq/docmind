@@ -71,7 +71,7 @@ section.main {
     height: fit-content;
     position: sticky;
     top: 1rem;
-    margin-bottom: 0.2rem !important; /* أضف هذا السطر أو عدله */
+    margin-bottom: 0.5rem !important; /* أضف هذا السطر أو عدله */
 }
 
 /* ── Buttons ── */
