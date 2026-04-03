@@ -54,44 +54,56 @@ section.main {
     visibility: hidden !important;
 }
 
-/* ── Sidebar: force always visible ── */
+/* ── Sidebar ── */
 [data-testid="stSidebar"] {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    transform: none !important;
-    position: relative !important;
     background: var(--surface) !important;
     border-right: 0.5px solid var(--line) !important;
     min-width: 260px !important;
     max-width: 260px !important;
-    width: 260px !important;
-    flex-shrink: 0 !important;
-    left: 0 !important;
-    margin-left: 0 !important;
-}
-[data-testid="stSidebar"] > div:first-child {
-    width: 260px !important;
-    min-width: 260px !important;
-    max-width: 260px !important;
-    overflow-x: hidden !important;
-    display: block !important;
-    visibility: visible !important;
 }
 [data-testid="stSidebarContent"] {
-    padding: 1.5rem 1rem !important;
-    overflow-x: hidden !important;
-    width: 100% !important;
-    display: block !important;
-    visibility: visible !important;
+    padding: 1.5rem 1.2rem !important;
 }
-
-/* hide collapse button — sidebar is always open */
 [data-testid="stSidebarCollapseButton"] {
-    display: none !important;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 [data-testid="collapsedControl"] {
-    display: none !important;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* ── Floating menu button (mobile only) ── */
+.mobile-menu-btn {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    left: 16px;
+    z-index: 9999;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--ink);
+    border: none;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+}
+.mobile-menu-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: #fff;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+@media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: flex !important;
+    }
 }
 
 /* ── Buttons ── */
@@ -146,7 +158,6 @@ section.main {
     font-size: 0.74rem;
     color: var(--teal);
     overflow: hidden;
-    width: 100%;
 }
 .ready-dot {
     width: 6px; height: 6px;
@@ -325,6 +336,20 @@ hr { border-color: var(--line) !important; }
     display: block;
 }
 </style>
+
+<!-- Floating button to open sidebar on mobile -->
+<button class="mobile-menu-btn" onclick="toggleSidebar()" title="Open Settings">
+    <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+
+<script>
+function toggleSidebar() {
+    // Streamlit's sidebar toggle button
+    const btn = window.parent.document.querySelector('[data-testid="stSidebarCollapseButton"] button')
+               || window.parent.document.querySelector('[data-testid="collapsedControl"] button');
+    if (btn) btn.click();
+}
+</script>
 """, unsafe_allow_html=True)
 
 # ── Session state ─────────────────────────────────────────────────────────
