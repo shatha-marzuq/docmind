@@ -337,7 +337,7 @@ col_left, col_right = st.columns([1, 2.8], gap="medium")
 with col_left:
     st.markdown("""
     <div class="panel">
-        <div style="font-family:'DM Sans',serif;font-size:1.5rem;color:#1a1a18;
+        <div style="font-family:'Instrument Serif',serif;font-size:1.5rem;color:#1a1a18;
                     display:flex;align-items:center;gap:9px;margin-bottom:4px;">
             <span style="width:8px;height:8px;background:#1D9E75;border-radius:50%;
                          display:inline-block;flex-shrink:0;"></span>
@@ -354,7 +354,7 @@ with col_left:
 
     st.markdown("<hr style='border:none;border-top:0.5px solid #e8e6e0;margin:1rem 0'>", unsafe_allow_html=True)
 
-    with st.expander("Advanced Settings"):
+    with st.expander("⚙️ Advanced Settings"):
         depth = st.selectbox(
             "Search Depth",
             ["Fast — quick specific questions", "Balanced — most questions", "Deep — summaries & analysis"],
