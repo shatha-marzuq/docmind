@@ -1,1 +1,5 @@
-[runtime] python_version="3.11"
+[ui]
+hideSidebarNav = false
+
+[theme]
+base = "light"
