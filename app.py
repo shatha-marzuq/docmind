@@ -299,7 +299,7 @@ hr { border-color: var(--line) !important; }
     letter-spacing: 1.2px;
     color: #9a9a92;
     text-transform: uppercase;
-    margin-bottom: 2px; /* قلل الرقم هنا من 8px إلى 2px */
+    margin-bottom: 8px; 
     display: block;
 }
 </style>
