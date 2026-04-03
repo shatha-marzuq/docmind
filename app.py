@@ -54,37 +54,44 @@ section.main {
     visibility: hidden !important;
 }
 
-/* ── Sidebar ── */
+/* ── Sidebar: force always visible ── */
 [data-testid="stSidebar"] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+    position: relative !important;
     background: var(--surface) !important;
     border-right: 0.5px solid var(--line) !important;
     min-width: 260px !important;
     max-width: 260px !important;
     width: 260px !important;
     flex-shrink: 0 !important;
+    left: 0 !important;
+    margin-left: 0 !important;
 }
 [data-testid="stSidebar"] > div:first-child {
     width: 260px !important;
     min-width: 260px !important;
     max-width: 260px !important;
     overflow-x: hidden !important;
+    display: block !important;
+    visibility: visible !important;
 }
 [data-testid="stSidebarContent"] {
     padding: 1.5rem 1rem !important;
     overflow-x: hidden !important;
     width: 100% !important;
+    display: block !important;
+    visibility: visible !important;
 }
 
-/* زر الإغلاق يظهر */
+/* hide collapse button — sidebar is always open */
 [data-testid="stSidebarCollapseButton"] {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+    display: none !important;
 }
 [data-testid="collapsedControl"] {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+    display: none !important;
 }
 
 /* ── Buttons ── */
