@@ -477,7 +477,7 @@ with col_right:
                 unsafe_allow_html=True
             )
 
-    placeholder = "Ask anything about your documents…" if st.session_state.documents_loaded else "Upload a document to start…"
+    placeholder = "Ask anything about your documents…" if st.session_state.documents_loaded else "  Upload a document to start…"
     if question := st.chat_input(placeholder, disabled=not st.session_state.documents_loaded):
         st.session_state.chat_history.append({"role": "user", "content": question})
         with st.spinner("Searching…"):
