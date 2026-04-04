@@ -344,7 +344,7 @@ with col_left:
                          display:inline-block;flex-shrink:0;"></span>
             DocMind
         </div>
-        <div style="font-size:0.9rem;color:#9a9a92;font-weight:250;margin-bottom:1.4rem;">
+        <div style="font-size:1rem;color:#9a9a92;font-weight:300;margin-bottom:1.4rem;">
             Chat with your documents intelligently
         </div>
     </div>
