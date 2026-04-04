@@ -437,7 +437,7 @@ with col_left:
         if st.button("Clear Chat", use_container_width=True):
             st.session_state.chat_history = []
             st.rerun()
-   with c2:
+  with c2:
         if st.button("Reset All", type="primary", use_container_width=True):
             for k, v in defaults.items():
                 st.session_state[k] = v
