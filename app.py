@@ -432,7 +432,7 @@ with col_left:
             )
 
     st.markdown("<hr style='border:none;border-top:0.5px solid #e8e6e0;margin:1rem 0'>", unsafe_allow_html=True)
-     c1, c2 = st.columns(2)
+    c1, c2 = st.columns(2)
     with c1:
         if st.button("Clear Chat", use_container_width=True):
             st.session_state.chat_history = []
