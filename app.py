@@ -71,7 +71,7 @@ section.main {
     height: fit-content;
     position: sticky;
     top: 1rem;
-    margin-bottom: 0.5rem !important;
+    margin-bottom: 0.5rem !important; /* أضف هذا السطر أو عدله */
 }
 
 /* ── Buttons ── */
@@ -89,18 +89,6 @@ section.main {
 .stButton > button:hover {
     border-color: var(--ink3) !important;
     color: var(--ink) !important;
-}
-
-/* ── Reset All button (darker) ── */
-.reset-btn .stButton > button {
-    background: #2d2d2b !important;
-    color: #f0ede6 !important;
-    border-color: #2d2d2b !important;
-}
-.reset-btn .stButton > button:hover {
-    background: #1a1a18 !important;
-    border-color: #1a1a18 !important;
-    color: #ffffff !important;
 }
 
 /* ── File uploader ── */
@@ -356,7 +344,7 @@ with col_left:
                          display:inline-block;flex-shrink:0;"></span>
             DocMind
         </div>
-        <div style="font-size:0.88rem;color:#9a9a92;font-weight:300;margin-bottom:1.4rem;">
+        <div style="font-size:0.72rem;color:#9a9a92;font-weight:300;margin-bottom:1.4rem;">
             Chat with your documents intelligently
         </div>
     </div>
@@ -430,13 +418,11 @@ with col_left:
             st.session_state.chat_history = []
             st.rerun()
     with c2:
-        st.markdown('<div class="reset-btn">', unsafe_allow_html=True)
         if st.button("Reset All", use_container_width=True):
             for k, v in defaults.items():
                 st.session_state[k] = v
             clear_vector_store()
             st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
 
 # ── Right column: chat ────────────────────────────────────────────────────
 with col_right:
