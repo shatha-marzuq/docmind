@@ -71,7 +71,7 @@ section.main {
     height: fit-content;
     position: sticky;
     top: 1rem;
-    margin-bottom: 0.5rem !important; /* أضف هذا السطر أو عدله */
+    margin-bottom: 0.5rem !important; 
 }
 
 /* ── Buttons ── */
@@ -344,7 +344,7 @@ with col_left:
                          display:inline-block;flex-shrink:0;"></span>
             DocMind
         </div>
-        <div style="font-size:0.72rem;color:#9a9a92;font-weight:300;margin-bottom:1.4rem;">
+        <div style="font-size:0.9rem;color:#9a9a92;font-weight:250;margin-bottom:1.4rem;">
             Chat with your documents intelligently
         </div>
     </div>
