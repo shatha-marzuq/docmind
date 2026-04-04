@@ -313,6 +313,15 @@ hr { border-color: var(--line) !important; }
     margin-bottom: 8px;
     display: block;
 }
+
+[data-testid="baseButton-primary"] {
+    background: #2d2d2b !important;
+    color: #f0ede6 !important;
+    border-color: #2d2d2b !important;
+}
+[data-testid="baseButton-primary"]:hover {
+    background: #1a1a18 !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -428,8 +437,8 @@ with col_left:
         if st.button("Clear Chat", use_container_width=True):
             st.session_state.chat_history = []
             st.rerun()
-    with c2:
-        if st.button("Reset All", use_container_width=True):
+   with c2:
+    if st.button("Reset All", type="primary", use_container_width=True):
             for k, v in defaults.items():
                 st.session_state[k] = v
             clear_vector_store()
