@@ -71,7 +71,7 @@ section.main {
     height: fit-content;
     position: sticky;
     top: 1rem;
-    margin-bottom: 0.5rem !important; 
+    margin-bottom: 0.5rem !important;
 }
 
 /* ── Buttons ── */
@@ -89,6 +89,17 @@ section.main {
 .stButton > button:hover {
     border-color: var(--ink3) !important;
     color: var(--ink) !important;
+}
+
+/* ── Reset All button ── */
+div[data-testid="stHorizontalBlock"] div[data-testid="column"]:nth-child(2) .stButton > button {
+    background: #2d2d2b !important;
+    color: #f0ede6 !important;
+    border-color: #2d2d2b !important;
+}
+div[data-testid="stHorizontalBlock"] div[data-testid="column"]:nth-child(2) .stButton > button:hover {
+    background: #1a1a18 !important;
+    color: #ffffff !important;
 }
 
 /* ── File uploader ── */
@@ -299,7 +310,7 @@ hr { border-color: var(--line) !important; }
     letter-spacing: 1.2px;
     color: #9a9a92;
     text-transform: uppercase;
-    margin-bottom: 8px; 
+    margin-bottom: 8px;
     display: block;
 }
 </style>
