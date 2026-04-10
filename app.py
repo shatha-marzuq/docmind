@@ -362,7 +362,7 @@ with col_left:
                     display:flex;align-items:center;gap:9px;margin-bottom:4px;">
             <span style="width:8px;height:8px;background:#1D9E75;border-radius:50%;
                          display:inline-block;flex-shrink:0;"></span>
-            Lucid
+            DocMind
         </div>
         <div style="font-size:1rem;color:#9a9a92;font-weight:300;margin-bottom:1.4rem;">
             Chat with your documents intelligently
