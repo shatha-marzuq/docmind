@@ -7,12 +7,10 @@ from langchain_core.output_parsers import StrOutputParser
 from dotenv import load_dotenv
 load_dotenv()
 
-
 def get_llm():
     """Initialize Gemini model."""
     return ChatGoogleGenerativeAI(
-model="gemini-2.5-flash",
-        google_api_key="AIzaSyCWanuXElfoSZY_Jyju2WgwUSkYRY83e18",
+        model="gemini-2.5-flash",
         temperature=0.1,
     )
 
