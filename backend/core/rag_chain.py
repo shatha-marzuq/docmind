@@ -12,7 +12,7 @@ def get_llm():
     """Initialize Gemini model."""
     return ChatGoogleGenerativeAI(
 model="gemini-2.5-flash",
-        google_api_key="AIzaSyAYdiCYC6QJCyDYZHXhuXg_a0HNP_tDCK4",
+        google_api_key="AIzaSyBBHCRmXoVk5KuYiIozZWAGBQrq0jzXN0g",
         temperature=0.1,
     )
 
