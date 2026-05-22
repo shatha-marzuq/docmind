@@ -116,7 +116,7 @@ export default function LeftPanel({
             </div>
           ))}
 
-          {files.length > 0 && (
+          {files?.length > 0 && (
             <button
               className="btn-process"
               onClick={() => onProcess(files)}
