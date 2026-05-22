@@ -1,146 +1,122 @@
-import { useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const SUPPORTED = [".pdf", ".txt", ".docx", ".md"];
+function UserBubble({ content }) {
+  return (
+    <div className="msg-wrap-user">
+      <span className="msg-role">You</span>
+      <div className="bubble-user">{content}</div>
+    </div>
+  );
+}
 
-export default function LeftPanel({
-  docsLoaded,
-  fileNames,
-  searchMode,
-  setSearchMode,
-  topK,
-  setTopK,
-  onProcess,
-  onClearChat,
-  onReset,
-  processing,
-}) {
-  const [files, setFiles] = useState([]);
-  const [advOpen, setAdvOpen] = useState(false);
-  const [dragging, setDragging] = useState(false);
-  const inputRef = useRef();
+function AiBubble({ content, citations }) {
+  return (
+    <div className="msg-wrap-ai">
+      <span className="msg-role">DocMind</span>
+      <div className="bubble-ai">
+        <div dangerouslySetInnerHTML={{ __html: content }} />
+        {citations?.length > 0 && (
+          <div className="cit-wrap">
+            {citations.map((c, i) => (
+              <span className="cit-item" key={i}>
+                <span className="cit-src">
+                  {c.source}{c.page ? ` · p.${c.page}` : ""}
+                </span>
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
-  const addFiles = (incoming) => {
-    const valid = incoming.filter((f) =>
-      SUPPORTED.some((ext) => f.name.toLowerCase().endsWith(ext))
-    );
-    setFiles((prev) => [...prev, ...valid]);
+function ThinkingBubble() {
+  return (
+    <div className="msg-wrap-ai">
+      <span className="msg-role">DocMind</span>
+      <div className="bubble-ai">
+        <div className="thinking">
+          <div className="dot" /><div className="dot" /><div className="dot" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function ChatPanel({ history, thinking, docsLoaded, fileNames, onSend, error }) {
+  const [input, setInput] = useState("");
+  const messagesRef = useRef();
+  const textareaRef = useRef();
+
+  useEffect(() => {
+    if (messagesRef.current)
+      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+  }, [history, thinking]);
+
+  const handleSend = () => {
+    const q = input.trim();
+    if (!q || thinking || !docsLoaded) return;
+    setInput("");
+    if (textareaRef.current) textareaRef.current.style.height = "auto";
+    onSend(q);
   };
 
-  const removeFile = (i) => setFiles((prev) => prev.filter((_, idx) => idx !== i));
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    setDragging(false);
-    addFiles(Array.from(e.dataTransfer.files));
+  const handleKey = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); }
   };
 
-  const depthOptions = [
-    { label: "Fast — quick specific questions", value: 3 },
-    { label: "Balanced — most questions", value: 5 },
-    { label: "Deep — summaries & analysis", value: 10 },
-  ];
+  const autoResize = (el) => {
+    el.style.height = "auto";
+    el.style.height = Math.min(el.scrollHeight, 120) + "px";
+  };
 
   return (
-    <aside className="panel">
-      {/* Logo */}
-      <div className="logo">
-        <span className="logo-dot" />
-        DocMind
-      </div>
-      <p className="logo-sub">Chat with your documents intelligently</p>
-
-      <hr className="divider" />
-
-      {/* Search Mode */}
-      <span className="sec-label">Search Mode</span>
-      <select value={searchMode} onChange={(e) => setSearchMode(e.target.value)}>
-        <option>Hybrid</option>
-        <option>Semantic</option>
-        <option>Keyword</option>
-      </select>
-
-      <hr className="divider" />
-
-      {/* Advanced */}
-      <button className="adv-toggle" onClick={() => setAdvOpen((v) => !v)}>
-        Advanced Settings <span>{advOpen ? "▾" : "▸"}</span>
-      </button>
-      {advOpen && (
-        <div className="adv-body">
-          <span className="sec-label" style={{ marginBottom: 4 }}>Search Depth</span>
-          <select
-            value={topK}
-            onChange={(e) => setTopK(Number(e.target.value))}
-          >
-            {depthOptions.map((d) => (
-              <option key={d.value} value={d.value}>{d.label}</option>
-            ))}
-          </select>
-        </div>
-      )}
-
-      <hr className="divider" />
-
-      {/* Document section */}
-      <span className="sec-label">Document</span>
-
-      {!docsLoaded ? (
-        <>
-          <div
-            className={`dropzone${dragging ? " drag" : ""}`}
-            onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
-            onDragLeave={() => setDragging(false)}
-            onDrop={handleDrop}
-            onClick={() => inputRef.current.click()}
-          >
-            <input
-              ref={inputRef}
-              type="file"
-              multiple
-              accept=".pdf,.txt,.docx,.md"
-              style={{ display: "none" }}
-              onChange={(e) => addFiles(Array.from(e.target.files))}
-            />
-            <span style={{ fontSize: 24, display: "block", marginBottom: 6 }}>↑</span>
-            اسحب أو اختر ملف PDF, DOCX, TXT, MD
-          </div>
-
-          {files.map((f, i) => (
-            <div className="file-strip" key={i} style={{ marginTop: 6 }}>
-              <span className="file-dot" />
-              <span className="file-name">{f.name}</span>
-              <span
-                onClick={() => removeFile(i)}
-                style={{ cursor: "pointer", color: "var(--ink3)", marginLeft: 4, fontSize: 12 }}
-              >✕</span>
-            </div>
-          ))}
-
-          {files?.length > 0 && (
-            <button
-              className="btn-process"
-              onClick={() => onProcess(files)}
-              disabled={processing}
-            >
-              {processing ? "Processing…" : "Process Documents"}
-            </button>
+    <section className="chat-col">
+      <div className="chat-header">
+        <div className="chat-title">
+          Conversation
+          {fileNames?.length > 0 && (
+            <span className="chat-doc-tag">{fileNames[0]}</span>
           )}
-        </>
-      ) : (
-        fileNames.map((name, i) => (
-          <div className="file-strip" key={i} style={{ marginBottom: 4 }}>
-            <span className="file-dot" />
-            <span className="file-name">{name}</span>
-            <span className="file-badge">READY</span>
-          </div>
-        ))
-      )}
-
-      {/* Actions */}
-      <div className="btn-row">
-        <button className="btn btn-light" onClick={onClearChat}>Clear Chat</button>
-        <button className="btn btn-dark" onClick={onReset}>Reset All</button>
+        </div>
       </div>
-    </aside>
+      <div className="messages" ref={messagesRef}>
+        {!history?.length && !thinking ? (
+          <div className="empty-state">
+            <span style={{ fontSize: 40, opacity: 0.2 }}>📄</span>
+            <span style={{ fontSize: "0.82rem", color: "var(--ink3)" }}>
+              {docsLoaded ? "اسأل أي شيء عن مستنداتك" : "ارفع ملفاً لتبدأ المحادثة"}
+            </span>
+          </div>
+        ) : (
+          <>
+            {history?.map((msg, i) =>
+              msg.role === "user"
+                ? <UserBubble key={i} content={msg.content} />
+                : <AiBubble key={i} content={msg.content} citations={msg.citations} />
+            )}
+            {thinking && <ThinkingBubble />}
+          </>
+        )}
+      </div>
+      {error && <div className="err-box">{error}</div>}
+      <div className="chat-input-wrap">
+        <textarea
+          ref={textareaRef}
+          className="chat-input"
+          value={input}
+          onChange={(e) => { setInput(e.target.value); autoResize(e.target); }}
+          onKeyDown={handleKey}
+          placeholder={docsLoaded ? "اسأل أي شيء عن مستنداتك…" : "ارفع مستنداً للبدء…"}
+          disabled={!docsLoaded || thinking}
+          rows={1}
+        />
+        <button className="send-btn" onClick={handleSend}
+          disabled={!docsLoaded || thinking || !input.trim()} aria-label="إرسال">
+          ↗
+        </button>
+      </div>
+    </section>
   );
 }
